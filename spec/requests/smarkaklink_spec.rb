@@ -85,8 +85,8 @@ RSpec.describe 'SmarKaKlink MASA API', type: :request do
 
     it "should provision via LetsEncrypt, a new device when mac address already loaded" do
 
-      pending "dns_update_options is not configured" unless AcmeKeys.acme.dns_update_options
       if ENV['ACME_TESTING'] and AcmeKeys.acme.server
+        pending "dns_update_options is not configured" unless AcmeKeys.acme.dns_update_options
         SystemVariable.setvalue(:shg_zone, "dasblinkenled.org")
         $INTERNAL_CA_SHG_DEVICE=false
         $LETSENCRYPT_CA_SHG_DEVICE=true
@@ -103,9 +103,9 @@ RSpec.describe 'SmarKaKlink MASA API', type: :request do
     end
 
     it "should re-provision via LetsEncrypt, when ULA is different" do
-      pending "dns_update_options is not configured" unless AcmeKeys.acme.dns_update_options
 
       if ENV['ACME_TESTING'] and AcmeKeys.acme.server
+        pending "dns_update_options is not configured" unless AcmeKeys.acme.dns_update_options
         # do the first time.
         SystemVariable.setvalue(:shg_zone, "dasblinkenled.org")
         $INTERNAL_CA_SHG_DEVICE=false
@@ -138,9 +138,9 @@ RSpec.describe 'SmarKaKlink MASA API', type: :request do
     end
 
     it "should get a previously acquired certificate, if it is not too old" do
-      pending "dns_update_options is not configured" unless AcmeKeys.acme.dns_update_options
 
       if ENV['ACME_TESTING'] and AcmeKeys.acme.server
+        pending "dns_update_options is not configured" unless AcmeKeys.acme.dns_update_options
         # do the first time.
         SystemVariable.setvalue(:shg_zone, "dasblinkenled.org")
         $INTERNAL_CA_SHG_DEVICE=false

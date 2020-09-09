@@ -147,4 +147,16 @@ class SystemVariable < ActiveRecord::Base
     SystemVariable.string("hostname")
   end
 
+  def self.company_name
+    SystemVariable.string("companyname") || hostname
+  end
+
+  # for single product instances
+  def self.product_name
+    SystemVariable.string("productname")
+  end
+  def self.model_name
+    SystemVariable.string("modelname")
+  end
+
 end

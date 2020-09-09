@@ -2,6 +2,7 @@ class Device < ActiveRecord::Base
   include FixtureSave
   has_many :vouchers
   belongs_to :owner
+
   # will add device_type for multi-product vendors
   #belongs_to :device_type
 
@@ -40,7 +41,7 @@ class Device < ActiveRecord::Base
     result
   end
 
-  def self.list_dev(output = $STDOUT)
+  def self.list_dev(output = $stdout)
     output.puts sprintf("%22s  %26s %s",
                  "PRODUCTID", "EUI64", "status")
 
@@ -702,37 +703,31 @@ class Device < ActiveRecord::Base
     vouchers.each { |voucher| voucher.savefixturefw(fw)}
   end
 
-  # for SmartPledge QR code creation
-  def dpphash_calc
-    dc = Hash.new
-    dc["S"] = SystemVariable.masa_iauthority
-    dc["M"] = compact_eui64
-    dc["K"] = Base64.strict_encode64(public_key.to_der)
-    dc["L"] = linklocal_eui64.to_hex[-16..-1].upcase  # last 16 digits
-    dc["E"] = essid
-    dc
+  def product_name
+    #device_type.try(:name) || System.product_name || "Product"
+    SystemVariable.product_name || "Product"
   end
 
-  def dpphash
-    @dpphash ||= dpphash_calc
+  def model_name
+    #model.try(:name) ||
+    SystemVariable.model_name || "Model"
   end
 
-  def dpp_component(a)
-    if dpphash[a]
-      a + ":" + dpphash[a] + ";"
-    else
-      ""
-    end
+  def mud_url
+    #device_type.try(:mud_url) ||
+    url = "https://" + SystemVariable.hostname + "/mud/"
+    url += product_name + "/"
+    url += model_name + "/"
+    url += "mud.json"
   end
 
-  def dppstring
-    "DPP:" +
-      dpp_component("M") +
-      dpp_component("I") +
-      dpp_component("K") +
-      dpp_component("L") +
-      dpp_component("S") +
-      dpp_component("E")
+  def sqrl_string
+    s = Sqrl.new
+    s.company_name = SystemVariable.company_name
+    s.product_name = product_name
+    s.model_name   = model_name
+    s.mud_url      = mud_url
+    s.sqrl_string
   end
 
 end

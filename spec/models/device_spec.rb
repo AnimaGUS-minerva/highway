@@ -431,7 +431,7 @@ RSpec.describe Device, type: :model do
     end
   end
 
-  describe "SmartPledge/DPP encoding" do
+  describe "secure home gateway encoding" do
     it "should default essid and fqdn from ULA" do
       zeb = devices(:zeb)
 
@@ -440,33 +440,6 @@ RSpec.describe Device, type: :model do
       zeb.reload
       expect(zeb.essid).to eq("SHG3CE618")
       expect(zeb.fqdn).to  eq("n3ce618.r.securehomegateway.ca")
-    end
-
-    it "should generate a tagged set of values" do
-      zeb = devices(:zeb)
-
-      dpphash = zeb.dpphash
-
-      expect(zeb.fqdn).to eq("n3ce618.r.securehomegateway.ca")
-
-      # URL to this MASA
-      expect(dpphash["S"]).to eq("highway-test.example.com:9443")
-      expect(dpphash["M"]).to eq("00163E8D519B")    # MAC address
-      expect(dpphash["K"]).to_not be_nil
-
-      key = OpenSSL::PKey.read(Base64.decode64(dpphash["K"]))
-      expect(key.class).to be OpenSSL::PKey::EC
-      key = OpenSSL::PKey.read(Base64.decode64(dpphash["K"]))
-      expect(key).to_not be_nil
-
-      expect(dpphash["L"]).to eq("02163EFFFE8D519B")
-      expect(dpphash["E"]).to eq("SHG3CE618")
-    end
-
-    it "should generate a DPP string" do
-      zeb = devices(:zeb)
-
-      expect(zeb.dppstring).to eq("DPP:M:00163E8D519B;K:MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEujp6VXpEgkSkPFM+R5iETYQ4hTZiZDZPJKqJWJJmQ6nFC8tS6QjITod6LFZ22WrwJ4NK987wAeRNkh3XTtCD5w==;L:02163EFFFE8D519B;S:highway-test.example.com:9443;E:SHG3CE618;")
     end
 
     it "should create a new host" do
@@ -509,5 +482,21 @@ RSpec.describe Device, type: :model do
       zeb.sign_from_base64_csr(b64)
     end
   end
+
+  describe "generate SQRL code from particulars" do
+    it "should generate an SQRL string" do
+      zeb = devices(:zeb)
+
+      expect(zeb.sqrl_string.unpack("H*").first).to eq("5b293e1e30361d31324e42303030686967687761792d746573742e6578616d706c652e636f6d1f4230303150726f647563741f423030324d6f64656c1f5530383768747470733a2f2f686967687761792d746573742e6578616d706c652e636f6d2f6d75642f50726f647563742f4d6f64656c2f6d75642e6a736f6e1f1e04")
+    end
+
+    it "should have a default Company Name" do
+      expect(devices(:zeb).product_name).to eq("Product")
+    end
+    it "should have a default Model Name" do
+      expect(devices(:zeb).model_name).to eq("Model")
+    end
+  end
+
 
 end

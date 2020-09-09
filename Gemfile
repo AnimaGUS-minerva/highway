@@ -20,7 +20,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', group: :doc
 
 # raven for sentry.io
 gem "sentry-raven"
@@ -46,6 +46,7 @@ gem "rack", ">= 2.2.3"
 gem "nokogiri", ">= 1.10.8"
 gem "netaddr", ">= 2.0.4"
 gem "websocket-extensions", ">= 0.1.5"
+gem "json", ">= 2.3.0"
 
 # for LetsEncrypt
 gem 'acme-client'

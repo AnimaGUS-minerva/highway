@@ -5,6 +5,10 @@ namespace :shg do
   desc "Create the contents for an SQRL code for a given PRODUCTID="
   task :sqrl_pledge => :environment do
     productid = ENV['PRODUCTID']
+    unless productid
+      STDERR.puts "Must set PRODUCTID= to generate for"
+      exit
+    end
 
     device = Device.find_by_number(productid.downcase)
     if device

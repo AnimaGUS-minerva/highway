@@ -132,8 +132,12 @@ namespace :highway do
       mylog = Log4r::Logger.new 'mylog'
       mylog.outputters = Log4r::Outputter.stdout
 
+      shg_suffix ||= SystemVariable.string(:shg_suffix)
+      shg_zone   ||= SystemVariable.string(:shg_zone)
+
+      shg_basezone = [shg_suffix, shg_zone].join('.')
       server_cert = AcmeKeys.acme.cert_for_names(qnames: [hostname],
-                                                 zone: SystemVariable.string(:shg_zone),
+                                                 zone: shg_basezone,
                                                  logger: mylog,
                                                  csr: csr,
                                                  extrazone: extraextra + SystemVariable.string(:shg_zone))

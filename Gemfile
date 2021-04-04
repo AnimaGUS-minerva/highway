@@ -47,6 +47,7 @@ gem "nokogiri", ">= 1.10.8"
 gem "netaddr", ">= 2.0.4"
 gem "websocket-extensions", ">= 0.1.5"
 gem "json", ">= 2.3.0"
+gem "activerecord", ">= 5.2.4.5"
 
 # for LetsEncrypt
 gem 'acme-client'

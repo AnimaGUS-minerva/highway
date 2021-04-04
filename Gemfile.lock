@@ -340,6 +340,7 @@ PLATFORMS
 
 DEPENDENCIES
   acme-client
+  activerecord (>= 5.2.4.5)
   byebug
   capistrano
   capistrano-bundler

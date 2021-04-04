@@ -213,7 +213,7 @@ class Device < ActiveRecord::Base
     # a pem format certificate is returned, possibly with extra certificates
     # tagged on as well, as a "bag"
     begin
-      cert_bag = AcmeKeys.acme.cert_for(shg_basename, shg_basezone, csr, logger)
+      cert_bag = AcmeKeys.acme.cert_for(shg_basename, shg_zone, csr, logger, 120)
     rescue Faraday::ConnectionFailed => e
       raise CSRFailed.new("LetsEncrypt/ACME failed to connect #{e.message}")
     end

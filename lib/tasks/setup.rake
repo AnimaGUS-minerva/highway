@@ -45,7 +45,7 @@ namespace :highway do
   desc "Do initial setup of system variables, non-interactively, HOSTNAME=foo"
   task :h0_set_hostname => :environment do
     SystemVariable.setvalue(:hostname, ENV['HOSTNAME'])
-    SystemVariable.setnumber(:portnum, ENV['PORT'])
+    SystemVariable.setnumber(:portnum, ENV['PORT'] || "9443")
     set_iauthority
     puts "MASA URL is #{SystemVariable.string(:masa_iauthority)}"
   end

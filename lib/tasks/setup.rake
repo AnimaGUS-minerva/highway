@@ -140,6 +140,7 @@ namespace :highway do
                                                  zone: shg_basezone,
                                                  logger: mylog,
                                                  csr: csr,
+                                                 sleeptime: 120,
                                                  extrazone: extraextra + SystemVariable.string(:shg_zone))
 
       if server_cert

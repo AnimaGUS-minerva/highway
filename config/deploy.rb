@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.13.0"
+lock "3.14.1"
 
 set :application, "highway"
 #set :repo_url, "git+ssh://code.credil.org/git/pandora/highway"

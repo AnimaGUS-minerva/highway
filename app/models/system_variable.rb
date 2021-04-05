@@ -23,8 +23,21 @@ class SystemVariable < ActiveRecord::Base
     if v.nil?
       v = self.new
       v.variable = thing.to_s
+
+      if block_given?
+        # initialize it.
+        yield(v)
+      end
+    end
+    if v.value.blank? and v.number.nil? and block_given?
+      # initialize it.
+      yield(v)
     end
     v
+  end
+
+  def self.findwithdefault(thing, defvalue)
+    (self.findormake(thing) { |v| v.value = defvalue }).value
   end
 
   def self.boolvalue?(thing)

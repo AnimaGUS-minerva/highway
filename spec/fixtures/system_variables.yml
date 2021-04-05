@@ -40,6 +40,12 @@ SystemVariable15:
   value: "securehomegateway.ca"
   number:
 
+SystemVariable16:
+  id: 16
+  variable: current_mac
+  value:
+  number: 10
+
 SystemVariable24:
   id: 24
   variable: portnum

@@ -1,5 +1,5 @@
 class HighwayKeys
-  attr_accessor :devdir, :certdir
+  attr_accessor :devdir, :certdir, :domain_curve, :client_curve, :algo
 
   def rootkey
     @rootkey ||= load_root_pub_key
@@ -15,12 +15,12 @@ class HighwayKeys
     rootprivkey
   end
 
-  def curve
-    'secp384r1'
+  def algo
+    @algo         ||= SystemVariable.findwithdefault('domain_algo','ecdsa')
   end
 
-  def client_curve
-    'prime256v1'
+  def domain_curve
+    @domain_curve ||= SystemVariable.findwithdefault('domain_curve','secp384r1')
   end
 
   def serial
@@ -31,24 +31,46 @@ class HighwayKeys
     OpenSSL::Digest::SHA384.new
   end
 
+  def client_algo
+    @client_algo  ||= SystemVariable.findwithdefault('client_algo','ecdsa')
+  end
+
+  def client_curve
+    @client_curve ||= SystemVariable.findwithdefault('client_curve','prime256v1')
+  end
+
+  def serial
+    SystemVariable.nextval(:serialnumber)
+  end
+
   def devicedir
-    @devdir  ||= if ENV['DEVICEDIR']
+    @devdir  ||= case
+                 when ENV['DEVICEDIR']
                    Pathname.new(ENV['DEVICEDIR'])
+
+                 when (Rails.env.development? or Rails.env.test?)
+                   HighwayKeys.ca.certdir = Rails.root.join('spec','files','cert')
+
                  else
                    Rails.root.join('db').join('devices')
                  end
   end
 
   def certdir
-    @certdir ||= if ENV['CERTDIR']
+    @certdir ||= case
+                 when ENV['CERTDIR']
                    Pathname.new(ENV['CERTDIR'])
+
+                 when (Rails.env.development? or Rails.env.test?)
+                   HighwayKeys.ca.certdir = Rails.root.join('spec','files','cert')
+
                  else
                    Rails.root.join('db').join('cert')
                  end
   end
 
   def vendor_pubkey
-    certdir.join("vendor_#{curve}.crt")
+    certdir.join("vendor_#{domain_curve}.crt")
   end
 
   def self.ca
@@ -56,7 +78,33 @@ class HighwayKeys
   end
 
   def root_priv_key_file
-    @vendorprivkey ||= File.join(certdir, "vendor_#{curve}.key")
+    @vendorprivkey ||= File.join(certdir, "vendor_#{domain_curve}.key")
+  end
+
+  def gen_client_pkey
+    case client_algo
+    when 'ecdsa'
+      key = OpenSSL::PKey::EC.new(domain_curve)
+      key.generate_key
+      key
+    when 'rsa'
+      key = OpenSSL::PKey::RSA.new(domain_curve)  # really, strength in bits
+      key.generate_key
+      key
+    end
+  end
+
+  def gen_domain_pkey
+    case algo
+    when 'ecdsa'
+      key = OpenSSL::PKey::EC.new(domain_curve)
+      key.generate_key
+      key
+    when 'rsa'
+      key = OpenSSL::PKey::RSA.new(domain_curve)  # really, strength in bits
+      key.generate_key
+      key
+    end
   end
 
   def sign_end_certificate(certname, privkeyfile, pubkeyfile, dnstr)
@@ -102,8 +150,7 @@ class HighwayKeys
       OpenSSL::PKey.read(File.open(privkeyfile))
     else
       # the CA's public/private key - 3*1024 + 8
-      key = OpenSSL::PKey::EC.new(curve)
-      key.generate_key
+      key = gen_client_pkey
       File.open(privkeyfile, "w", 0600) do |f| f.write key.to_pem end
       key
     end
@@ -112,7 +159,7 @@ class HighwayKeys
   def sign_certificate(certname, issuer, privkeyfile, pubkeyfile, dnobj, duration=(2*365*60*60), &efblock)
     FileUtils.mkpath(certdir)
 
-    key = generate_privkey_if_needed(privkeyfile, curve, certname)
+    key = generate_privkey_if_needed(privkeyfile, client_curve, certname)
     ncert = sign_pubkey(issuer, dnobj, key, duration, efblock)
 
     File.open(pubkeyfile,'w') do |f|

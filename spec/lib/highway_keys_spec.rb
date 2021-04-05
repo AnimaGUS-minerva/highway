@@ -10,7 +10,7 @@ RSpec.describe HighwayKeys do
   end
 
   it "should generate and sign private end-certificate from Highway CA" do
-    curve   = HighwayKeys.ca.curve
+    curve   = HighwayKeys.ca.domain_curve
 
     # set up to use test signing keys
     HighwayKeys.ca.certdir = Rails.root.join('spec','files','cert')
@@ -29,7 +29,7 @@ RSpec.describe HighwayKeys do
   end
 
   it "should generate and sign private end-certificate from IDevID CA" do
-    curve   = IDevIDKeys.ca.curve
+    curve   = IDevIDKeys.ca.client_curve
 
     # set up to use test signing keys
     IDevIDKeys.ca.certdir = Rails.root.join('spec','files','cert')

@@ -77,6 +77,18 @@ namespace :highway do
     prompt_variable_value("Setup inventory base mac address",
                           :base_mac)
 
+    prompt_variable_value("Algorithm to use for Certification Authority ",
+                          :domain_algo)
+
+    prompt_variable_value("Curve/size to use for Certification Authority",
+                          :domain_curve)
+
+    prompt_variable_value("Algorithm to use for MASA Key ",
+                          :client_algo)
+
+    prompt_variable_value("Curve/size to use for MASA Key",
+                          :client_curve)
+
     set_iauthority
     SystemVariable.dump_vars
   end

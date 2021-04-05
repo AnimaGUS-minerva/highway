@@ -14,13 +14,6 @@ class IDevIDKeys < HighwayKeys
     idevidprivkey
   end
 
-  def curve
-    'prime256v1'
-  end
-  def algorithm
-    'ES256'
-  end
-
   def self.idevid
     @idevid ||= self.new
   end
@@ -31,11 +24,11 @@ class IDevIDKeys < HighwayKeys
   end
 
   def idevid_pub_keyfile
-    certdir.join("idevid_#{curve}.crt")
+    certdir.join("idevid_#{client_curve}.crt")
   end
 
   def idevid_priv_keyfile
-    certdir.join("idevid_#{curve}.key")
+    certdir.join("idevid_#{client_curve}.key")
   end
 
   protected

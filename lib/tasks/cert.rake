@@ -87,10 +87,10 @@ namespace :highway do
     end
   end
 
-  desc "Create an intermediate CA for signing SmartPledge IDevID devices"
+  desc "Create a suborbinate CA for signing SmartPledge IDevID devices"
   task :h5_idevid_ca => :environment do
 
-    curve             = IDevIDKeys.ca.curve
+    curve             = IDevIDKeys.ca.client_curve
     dnprefix          = SystemVariable.string(:dnprefix) || "/DC=ca/DC=sandelman"
     dn = sprintf("%s/CN=%s IDevID CA", dnprefix, SystemVariable.string(:hostname))
     puts "issuer is now: #{dn}"

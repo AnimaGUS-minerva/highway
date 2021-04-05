@@ -5,7 +5,7 @@ namespace :highway do
   desc "Create initial self-signed CA certificate, or resign existing one"
   task :h1_bootstrap_ca => :environment do
 
-    curve = HighwayKeys.ca.curve
+    curve = HighwayKeys.ca.domain_curve
     vendorprivkeyfile = HighwayKeys.ca.certdir.join("vendor_#{curve}.key")
     outfile       = HighwayKeys.ca.certdir.join("vendor_#{curve}.crt")
     dnprefix = SystemVariable.string(:dnprefix) || "/DC=ca/DC=sandelman"
@@ -14,6 +14,10 @@ namespace :highway do
     dnobj = OpenSSL::X509::Name.parse dn
 
     if !File.exist?(outfile) or ENV['RESIGN']
+
+      # generate the privkey directly, since we want the domain privkey
+      HighwayKeys.ca.generate_domain_privkey_if_needed(vendorprivkeyfile, curve, dnobj)
+
       HighwayKeys.ca.sign_certificate("CA", dnobj,
                                       vendorprivkeyfile,
                                       outfile, dnobj) { |cert, ef|

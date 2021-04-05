@@ -144,6 +144,18 @@ class HighwayKeys
     ncert.sign(ca_signing_key, OpenSSL::Digest::SHA256.new)
   end
 
+  def generate_domain_privkey_if_needed(privkeyfile, curve, certname)
+    if File.exists?(privkeyfile)
+      puts "#{certname} using existing key at: #{privkeyfile}"
+      OpenSSL::PKey.read(File.open(privkeyfile))
+    else
+      # the CA's public/private key - 3*1024 + 8
+      key = gen_domain_pkey
+      File.open(privkeyfile, "w", 0600) do |f| f.write key.to_pem end
+      key
+    end
+  end
+
   def generate_privkey_if_needed(privkeyfile, curve, certname)
     if File.exists?(privkeyfile)
       puts "#{certname} using existing key at: #{privkeyfile}"

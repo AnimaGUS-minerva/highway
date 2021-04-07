@@ -455,10 +455,9 @@ class Device < ActiveRecord::Base
     self[:serial_number] ||= eui64
   end
 
-  # JWT wants prime256v1 (aka secp256r1), so default to that.
-  def gen_priv_key(curve = 'prime256v1')
-    @dev_key = OpenSSL::PKey::EC.new(curve)
-    @dev_key.generate_key
+  # take key type from settings in IDevIDKey.
+  def gen_priv_key
+    @dev_key = IDevIDKeys.ca.gen_client_pkey
   end
 
   def sanitized_eui64

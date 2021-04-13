@@ -619,7 +619,7 @@ class Device < ActiveRecord::Base
   def masa_extension
     @mext ||= extension_factory.create_extension(
       "1.3.6.1.5.5.7.1.32",
-      sprintf("ASN1:UTF8String:%s", masa_url),
+      sprintf("ASN1:IA5STRING:%s", masa_url),
       false)
   end
 

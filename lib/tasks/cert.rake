@@ -15,12 +15,16 @@ namespace :highway do
 
     if !File.exist?(outfile) or ENV['RESIGN']
 
+      duration = ENV['DURATION'].try(:to_i) || (2*365*24*60*60)
+
+      puts "Signing with duration of #{duration} seconds"
+
       # generate the privkey directly, since we want the domain privkey
       HighwayKeys.ca.generate_domain_privkey_if_needed(vendorprivkeyfile, curve, dnobj)
 
       HighwayKeys.ca.sign_certificate("CA", dnobj,
                                       vendorprivkeyfile,
-                                      outfile, dnobj) { |cert, ef|
+                                      outfile, dnobj, duration) { |cert, ef|
         cert.add_extension(ef.create_extension("basicConstraints","CA:TRUE",true))
         cert.add_extension(ef.create_extension("keyUsage","keyCertSign, cRLSign", true))
         cert.add_extension(ef.create_extension("subjectKeyIdentifier","hash",false))

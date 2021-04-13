@@ -15,15 +15,19 @@ Rails.application.routes.draw do
   resources :devices
   end
 
-  # EST processing at well known URLs
+  # OLD EST processing at well known URLs (pre-RFC internet-draft)
   post '/.well-known/est/requestvoucher',  to: 'est#requestvoucher'
   post '/.well-known/est/requestauditlog', to: 'est#requestauditlog'
 
+  # NEW EST processing at well known URLs
+  post '/.well-known/brski/requestvoucher',  to: 'est#requestvoucher'
+  post '/.well-known/brski/requestauditlog', to: 'est#requestauditlog'
+  post '/.well-known/brski/enrollstatus', to: 'smarkaklink#enrollstatus'
+
   # EST processing of smarkaklink URLs
-  post '/.well-known/est/smarkaklink',  to: 'smarkaklink#enroll'
+  post '/.well-known/brski/smarkaklink',  to: 'smarkaklink#enroll'
   post '/smarkaklink/enroll',           to: 'smarkaklink#enroll'
   post '/shg-provision',                to: 'smarkaklink#provision'
-  post '/.well-known/est/enrollstatus', to: 'smarkaklink#enrollstatus'
 
   # COMET processing of notification systems
   post '/send_new_device_notification',     to: 'iot_devices#new'

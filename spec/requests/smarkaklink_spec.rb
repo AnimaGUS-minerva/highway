@@ -18,7 +18,7 @@ RSpec.describe 'SmarKaKlink MASA API', type: :request do
     it "POST a smartpledge voucher request, using correct content_type" do
       token = IO::read("spec/files/enroll1.json")
 
-      post "/.well-known/est/smarkaklink", params: token, headers: {
+      post "/.well-known/brski/smarkaklink", params: token, headers: {
              'CONTENT_TYPE' => 'application/json',
              'ACCEPT'       => 'application/pkcs7',
            }
@@ -58,7 +58,7 @@ RSpec.describe 'SmarKaKlink MASA API', type: :request do
     it "POST a smarkaklink voucher request, with an invalid content_type" do
       token = IO::read("spec/files/enroll1.json")
 
-      post "/.well-known/est/smarkaklink", params: token, headers: {
+      post "/.well-known/brski/smarkaklink", params: token, headers: {
              'CONTENT_TYPE' => 'application/pkcs10',
              'ACCEPT'       => 'application/pkcs7',
            }
@@ -210,7 +210,7 @@ RSpec.describe 'SmarKaKlink MASA API', type: :request do
                 "voucher" => Base64.urlsafe_encode64(vouchers(:voucher43).as_issued)
               }
 
-      post "/.well-known/est/enrollstatus", params: token.to_json, headers: {
+      post "/.well-known/brski/enrollstatus", params: token.to_json, headers: {
              'CONTENT_TYPE' => 'application/json',
            }
       expect(response).to have_http_status(200)
@@ -224,7 +224,7 @@ RSpec.describe 'SmarKaKlink MASA API', type: :request do
     it "should reject enrollment status if no voucher included" do
       token = {"version"=>1, "status"=>true, "reason"=>"ok"}
 
-      post "/.well-known/est/enrollstatus", params: token.to_json, headers: {
+      post "/.well-known/brski/enrollstatus", params: token.to_json, headers: {
              'CONTENT_TYPE' => 'application/json',
            }
       expect(response).to have_http_status(406)

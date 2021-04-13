@@ -110,12 +110,12 @@ class HighwayKeys
     dnobj = OpenSSL::X509::Name.parse dnstr
 
     sign_certificate(certname, nil, privkeyfile,
-                     pubkeyfile, dnobj, 2*365*60*60) { |cert,ef|
+                     pubkeyfile, dnobj, 2*365*24*60*60) { |cert,ef|
       cert.add_extension(ef.create_extension("basicConstraints","CA:FALSE",true))
     }
   end
 
-  def sign_pubkey(issuer, dnobj, pubkey, duration=(2*365*60*60), efblock = nil)
+  def sign_pubkey(issuer, dnobj, pubkey, duration=(2*365*24*60*60), efblock = nil)
     # note, root CA's are "self-signed", so pass dnobj.
     issuer ||= cacert.subject
 
@@ -167,7 +167,7 @@ class HighwayKeys
     end
   end
 
-  def sign_certificate(certname, issuer, privkeyfile, pubkeyfile, dnobj, duration=(2*365*60*60), &efblock)
+  def sign_certificate(certname, issuer, privkeyfile, pubkeyfile, dnobj, duration=(2*365*24*60*60), &efblock)
     FileUtils.mkpath(certdir)
 
     key = generate_privkey_if_needed(privkeyfile, client_curve, certname)

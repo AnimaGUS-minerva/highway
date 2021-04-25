@@ -316,9 +316,11 @@ class Device < ActiveRecord::Base
 
     # make sure that fqdn has been setup.
     # the CSR value is actually pretty much ignored... how can we trust any of it?
-    # 12 - is the code for UTF8 string, I think.
+    # 12 - is the code for UTF8 string
+    # 19 - is the code for PrintableString.
+    #   see:  openssl/asn1.h 65:# define V_ASN1_PRINTABLESTRING          19
     subject_list = [["CN", fqdn, 12],
-                    ["serialNumber", serial_number,12],
+                    ["serialNumber", serial_number,19],
                     ["CN", "mud." + fqdn, 12]]
 
     @idevid.subject = OpenSSL::X509::Name.new(subject_list)

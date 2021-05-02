@@ -651,7 +651,7 @@ class Device < ActiveRecord::Base
   def sign_eui64(not_after = Time.gm(2999,12,31))
     sign_setup_certificate(not_after)
     end_certificate_extensions
-    @idevid.subject = OpenSSL::X509::Name.new([["serialNumber", serial_number,12]])
+    @idevid.subject = OpenSSL::X509::Name.new([["serialNumber", serial_number,19]])
 
     # keyUsage and extendedKeyUsage (EKU) were tried, but shoud be avoided according to brski-20
     # @idevid.add_extension(extension_factory.create_extension("keyUsage","digitalSignature",false))

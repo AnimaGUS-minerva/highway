@@ -37,6 +37,7 @@ gem "rack", ">= 2.2.3"
 gem "nokogiri", ">= 1.10.8"
 gem "netaddr", ">= 2.0.4"
 gem "websocket-extensions", ">= 0.1.5"
+gem "rexml", ">= 3.2.5"
 
 # use this to get full decoding of HTTP Accept: headers, to be able to
 # split off smime-type=voucher in pkcs7-mime, and other parameters

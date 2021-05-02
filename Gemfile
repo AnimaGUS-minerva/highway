@@ -48,6 +48,8 @@ gem "netaddr", ">= 2.0.4"
 gem "websocket-extensions", ">= 0.1.5"
 gem "json", ">= 2.3.0"
 gem "activerecord", ">= 5.2.4.5"
+gem "rexml", ">= 3.2.5"
+
 
 # for LetsEncrypt
 gem 'acme-client'

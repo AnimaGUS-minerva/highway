@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4.3'
+gem 'rails', '~> 5.2.4.6'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15'
@@ -34,10 +34,11 @@ gem "devise", ">= 4.7.1"
 gem "loofah", ">= 2.3.1"
 gem "rake", ">= 12.3.3"
 gem "rack", ">= 2.2.3"
-gem "nokogiri", ">= 1.10.8"
+gem "nokogiri", ">= 1.11.4"
 gem "netaddr", ">= 2.0.4"
 gem "websocket-extensions", ">= 0.1.5"
 gem "rexml", ">= 3.2.5"
+gem "actionpack", ">= 5.2.4.6"
 
 # use this to get full decoding of HTTP Accept: headers, to be able to
 # split off smime-type=voucher in pkcs7-mime, and other parameters

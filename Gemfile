@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4.3'
+gem 'rails', '~> 5.2.4.6'
 gem 'cow_proxy', :git => 'https://github.com/mcr/cow_proxy.git'
 
 # Use postgresql as the database for Active Record
@@ -43,12 +43,13 @@ gem "devise", ">= 4.7.1"
 gem "loofah", ">= 2.3.1"
 gem "rake", ">= 12.3.3"
 gem "rack", ">= 2.2.3"
-gem "nokogiri", ">= 1.10.8"
+gem "nokogiri", ">= 1.11.4"
 gem "netaddr", ">= 2.0.4"
 gem "websocket-extensions", ">= 0.1.5"
 gem "json", ">= 2.3.0"
 gem "activerecord", ">= 5.2.4.5"
 gem "rexml", ">= 3.2.5"
+gem "actionpack", ">= 5.2.4.6"
 
 
 # for LetsEncrypt

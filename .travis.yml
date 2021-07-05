@@ -1,7 +1,7 @@
 language: ruby
 rvm:
   - 2.6.6
-dist: bionic
+dist: focal
 cache:
   directories:
     - /home/travis/minerva/

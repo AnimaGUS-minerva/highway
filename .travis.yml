@@ -6,6 +6,8 @@ cache:
   directories:
     - /home/travis/minerva/
     - /home/travis/.rvm/
+addons:
+  postgresql: 11
 services:
   - postgresql
 before_install:

@@ -16,6 +16,8 @@ before_install:
   - ./travis-install-openssl
   - LD_PRELOAD=/home/travis/minerva/lib/libssl.so.1.1:/home/travis/minerva/lib/libcrypto.so.1.1 ruby -e 'require "openssl"; system(sprintf("lsof -p %d", Process.pid))'
   - bundle config set deployment 'true'
+install:
+  - true
 before_script:
   - psql -c 'create database fountain_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml

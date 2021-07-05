@@ -9,6 +9,7 @@ cache:
 services:
   - postgresql
 before_install:
+  - sudo update-ca-certificates
   - PATH=$HOME/minerva/bin:$PATH export PATH
   - ln -s $HOME/minerva ../minerva
   - ruby -e 'require "openssl"; system(sprintf("lsof -p %d", Process.pid))'

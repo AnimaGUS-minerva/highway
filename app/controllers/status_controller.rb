@@ -6,6 +6,7 @@ class StatusController < ActionController::Base
               ['Inventory',  Device.unowned.count],
               ['Owners',  Owner.count],
               ['Vouchers',Voucher.count],
+              ['Hostname', SystemVariable.hostname],
               ['Requests',VoucherRequest.count],
              ]
     respond_to do |format|

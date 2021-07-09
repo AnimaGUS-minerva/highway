@@ -5,6 +5,7 @@ class DeviceNotifierMailer < ApplicationMailer
     @device= voucher.device
     @hostname = SystemVariable.string(:hostname)
     @resold = @device.owners.count > 1
+    @originating_ip = voucher.try(:voucher_request).try(:originating_ip) || "unknown"
     type = voucher.voucher_type
     mail(to: ENV['USER'], subject: "New #{type} voucher issued for #{@device.name}")
   end
@@ -13,6 +14,7 @@ class DeviceNotifierMailer < ApplicationMailer
     @voucher_req = voucher_req
     @hostname = SystemVariable.string(:hostname)
     @reason   = reason
+    @originating_ip = voucher_req.try(:originating_ip) || "unknown"
     mail(to: ENV['USER'], subject: "Did not issue voucher")
   end
 

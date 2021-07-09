@@ -5,6 +5,8 @@ Message from <%= @hostname %>
 Voucher request from <%= @voucher_req.originating_ip %>,
 but was unable to issue the voucher due to <%= @reason.to_s %>.
 
+The request was from <%= @originating_ip %>.
+
 The request was for <%= @voucher_req.device_identifier %>
 
 

@@ -62,6 +62,6 @@ class CmsVoucherRequest < VoucherRequest
     CmsVoucher.create_voucher(owner: owner, device: device,
                               domainOwnerCert: prior_voucher_request.proximityRegistrarCert,
                               effective_date: effective_date,
-                              nonce: nonce, expires: expires)
+                              nonce: nonce, expires: expires, voucher_request: self)
   end
 end

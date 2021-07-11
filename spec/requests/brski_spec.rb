@@ -36,12 +36,18 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
 
     it "POST /.well-known/brski/requestvoucher" do
       # make an HTTPS request for a new voucher
-      # this is section 3.3 of RFCXXXX/draft-ietf-anima-dtbootstrap-anima-keyinfra
+      # this is section 5.5 of RFC8995
       token = Base64.decode64(File.read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
-      post "/.well-known/brski/requestvoucher", params: token, headers: {
-             'CONTENT_TYPE' => 'application/voucher-cms+json',
-             'ACCEPT'       => 'application/voucher-cms+json'
-           }
+      expect {
+
+        post "/.well-known/brski/requestvoucher", params: token, headers: {
+               'CONTENT_TYPE' => 'application/voucher-cms+json',
+               'ACCEPT'       => 'application/voucher-cms+json',
+               'REMOTE_ADDR'  => '2606:2800:220:1:248:1893:25c8:1946', # example.com
+             }
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      expect(ActionMailer::Base.deliveries.last.body).to include("2606:2800:220:1:248:1893:25c8:1946")
 
       expect(response).to have_http_status(200)
       expect(assigns(:voucherreq).device_identifier).to eq('00-D0-E5-F2-00-02')
@@ -58,10 +64,13 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
         post "/.well-known/brski/requestvoucher", params: token, headers: {
                'CONTENT_TYPE' => 'application/voucher-cms+json',
                'ACCEPT'       => 'application/voucher-cms+json',
+               'REMOTE_ADDR'  => '2606:2800:220:1:248:1893:25c8:1946', # example.com
                'SSL_CLIENT_CERT'=> pubkey_pem
              }
 
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      expect(ActionMailer::Base.deliveries.last.body).to include("2606:2800:220:1:248:1893:25c8:1946")
 
       expect(response).to have_http_status(404)
     end
@@ -74,7 +83,7 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
                'CONTENT_TYPE' => 'text/plain',
                'ACCEPT'       => 'application/voucher-cose+cbor',
              }
-      }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
 
       expect(response).to have_http_status(406)
     end

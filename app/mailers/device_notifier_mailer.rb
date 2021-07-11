@@ -1,11 +1,11 @@
 class DeviceNotifierMailer < ApplicationMailer
 
-  def voucher_issued_email(voucher)
+  def voucher_issued_email(voucher, voucher_request)
     @owner = voucher.owner
     @device= voucher.device
     @hostname = SystemVariable.string(:hostname)
     @resold = @device.owners.count > 1
-    @originating_ip = voucher.try(:voucher_request).try(:originating_ip) || "unknown"
+    @originating_ip = voucher_request.try(:originating_ip) || "unknown"
     type = voucher.voucher_type
     mail(to: ENV['USER'], subject: "New #{type} voucher issued for #{@device.name}")
   end
@@ -18,9 +18,10 @@ class DeviceNotifierMailer < ApplicationMailer
     mail(to: ENV['USER'], subject: "Did not issue voucher")
   end
 
-  def invalid_voucher_request(request)
+  def invalid_voucher_request(request, voucher_req)
     @originating_ip = request.env["REMOTE_ADDR"]
     @hostname = SystemVariable.string(:hostname)
+    @voucher_req = voucher_req
     mail(to: ENV['USER'], subject: "Invalid voucher request")
   end
 

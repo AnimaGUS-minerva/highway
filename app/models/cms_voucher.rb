@@ -4,7 +4,10 @@ class CmsVoucher < Voucher
     "cms_voucher"
   end
 
-  def sign!(today: DateTime.now.utc, owner_cert: owner.certder, owner_rpk: owner.pubkey_object)
+  def sign!(today: DateTime.now.utc,
+            owner_cert: owner.certder,
+            owner_rpk: owner.pubkey_object,
+            voucher_request: nil)
     cv = Chariwt::Voucher.new
     cv.assertion    = 'logged'
     cv.serialNumber = serial_number
@@ -20,7 +23,7 @@ class CmsVoucher < Voucher
     end
 
     self.as_issued = cv.pkcs_sign_bin(MasaKeys.masa.masaprivkey)
-    notify_voucher!
+    notify_voucher!(voucher_request)
     save!
     self
   end

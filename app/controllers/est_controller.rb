@@ -27,51 +27,52 @@ class EstController < ApiController
     end
 
     logger.info "Processing Voucher-Request of type: '#{@replytype}'"
-    media_types = HTTP::Accept::MediaTypes.parse(@replytype)
+    @media_types = HTTP::Accept::MediaTypes.parse(@replytype)
 
-    if media_types == nil or media_types.length < 1
+    if @media_types == nil or @media_types.length < 1
       capture_bad_request(msg: "unknown voucher-request content-type: #{@replytype}")
       return
     end
-    media_type = media_types.first
+    @media_type = @media_types.first
 
     begin
       case
-      when (media_type.mime_type == 'application/voucher-cms+json')
+      when (@media_type.mime_type == 'application/voucher-cms+json')
 
         binary_pkcs = request.body.read
         begin
           @voucherreq = CmsVoucherRequest.from_pkcs7(binary_pkcs)
         rescue VoucherRequest::MissingPublicKey
-          DeviceNotifierMailer.invalid_voucher_request(request).deliver
-          capture_bad_request(code: 404,
+          vr = capture_bad_request(code: 404,
                               msg: "voucher request was for invalid device, or was missing public key")
+          DeviceNotifierMailer.invalid_voucher_request(request, vr).deliver
           return
 
         rescue Chariwt::Voucher::RequestFailedValidation
-          DeviceNotifierMailer.invalid_voucher_request(request).deliver
-          capture_bad_request(code: 406,
+          vr = capture_bad_request(code: 406,
                               msg: "voucher request corrupt or failed to validate")
+          DeviceNotifierMailer.invalid_voucher_request(request, vr).deliver
           return
         end
 
-      when (media_type.mime_type == 'application/voucher-cose+cbor')
+      when (@media_type.mime_type == 'application/voucher-cose+cbor')
         begin
           @voucherreq = CoseVoucherRequest.from_cbor_cose_io(request.body, @clientcert)
         rescue VoucherRequest::InvalidVoucherRequest
-          DeviceNotifierMailer.invalid_voucher_request(request).deliver
-          capture_bad_request(code: 406,
-                              msg: "voucher request was not signed with a known public key")
+          vr = capture_bad_request(code: 406,
+                              msg: "CBOR voucher request was not signed with a known public key")
+          DeviceNotifierMailer.invalid_voucher_request(request, vr).deliver
           return
         rescue VoucherRequest::MissingPublicKey
-          DeviceNotifierMailer.invalid_voucher_request(request).deliver
-          capture_bad_request(code: 406,
-                              msg: "voucher request prior-signed-voucher-request was not signed with a known public key")
+          vr = capture_bad_request(code: 406,
+                              msg: "CBOR voucher request prior-signed-voucher-request was not signed with a known public key")
+          DeviceNotifierMailer.invalid_voucher_request(request, vr).deliver
           return
         end
       else
-        capture_bad_request(code: 406,
-                            msg: "unknown voucher-request content-type: #{request.content_type}")
+        vr = capture_bad_request(code: 406,
+                                 msg: "unknown voucher-request content-type: #{request.content_type}")
+        DeviceNotifierMailer.invalid_voucher_request(request, vr).deliver
         return
       end
     end
@@ -80,6 +81,8 @@ class EstController < ApiController
       capture_bad_request(code: 404, msg: 'missing voucher request')
       return
     end
+
+    @voucherreq.originating_ip = request.env["REMOTE_ADDR"]
 
     @voucherreq.save!
     @voucher,@reason = @voucherreq.issue_voucher
@@ -169,10 +172,13 @@ class EstController < ApiController
                                           :originating_ip => request.env["REMOTE_ADDR"])
 
     capture_client_certificate
+    # put @media_type into some useful place?
     @voucherreq.details["returned_message"] = msg
     @voucherreq.save!
     logger.info "Voucher request failed, details in #{@voucherreq.id}, #{$!}"
     head code, text: msg
+
+    @voucherreq
   end
 
 end

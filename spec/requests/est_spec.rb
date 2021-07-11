@@ -74,7 +74,7 @@ RSpec.describe 'BRSKI-MASA EST API', type: :request do
                'CONTENT_TYPE' => 'text/plain',
                'ACCEPT'       => 'application/voucher-cose+cbor',
              }
-      }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
 
       expect(response).to have_http_status(406)
     end

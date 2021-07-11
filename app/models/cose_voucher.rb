@@ -5,7 +5,9 @@ class CoseVoucher < Voucher
   end
 
 
-  def sign!(today: DateTime.now.utc, owner_cert: owner.certder, owner_rpk: owner.pubkey_object)
+  def sign!(today: DateTime.now.utc, owner_cert: owner.certder,
+            owner_rpk: owner.pubkey_object,
+            voucher_request: nil)
     cv = Chariwt::Voucher.new
     cv.assertion    = 'logged'
     cv.serialNumber = serial_number
@@ -27,7 +29,7 @@ class CoseVoucher < Voucher
       valid = Chariwt::Voucher.from_cbor_cose(as_issued, signing_cert)
     end
 
-    notify_voucher!
+    notify_voucher!(voucher_request)
     save!
     self
   end

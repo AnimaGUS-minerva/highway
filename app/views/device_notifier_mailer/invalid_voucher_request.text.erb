@@ -3,10 +3,12 @@ Message from <%= @hostname %>
 =============================
 
 Voucher request from <%= @originating_ip %> was created
-for <%= @device.try(:name) || "unknown-device" %>, but was
-unable to issue the voucher as voucher request was not signed
+for <%= @device.try(:name) || "unknown-device" %>,
+but was unable to issue the voucher as voucher request was not signed
 by a known public key.
 
+The request was of type
+The voucher request information was captured to <%= @voucher_req.id %>
 
 
 

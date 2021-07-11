@@ -18,9 +18,9 @@ class Voucher < ActiveRecord::Base
     device.serial_number
   end
 
-  def notify_voucher!
+  def notify_voucher!(vr = nil)
     begin
-      DeviceNotifierMailer.voucher_issued_email(self).deliver
+      DeviceNotifierMailer.voucher_issued_email(self, vr).deliver
     rescue Exception => e
       DeviceNotifierMailer.failed_to_notify-email(e).deliver
     end
@@ -36,7 +36,9 @@ class Voucher < ActiveRecord::Base
 
   # sign! is implemented in subclass.
   def self.create_voucher(owner:, device:, effective_date:,
-                          nonce: nil, expires: nil, domainOwnerCert: nil, domainOwnerRPK: nil)
+                          nonce: nil, expires: nil, domainOwnerCert: nil,
+                          domainOwnerRPK: nil,
+                          voucher_request: nil)
     voucher = create(owner: owner,
                      device: device,
                      nonce: nonce)
@@ -55,7 +57,8 @@ class Voucher < ActiveRecord::Base
       voucher.expires_on = expires
     end
 
-    voucher.sign!(today: effective_date, owner_cert: domainOwnerCert, owner_rpk: domainOwnerRPK)
+    voucher.sign!(today: effective_date, voucher_request: voucher_request,
+                  owner_cert: domainOwnerCert, owner_rpk: domainOwnerRPK)
     voucher
   end
 

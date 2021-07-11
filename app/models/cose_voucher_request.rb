@@ -67,7 +67,8 @@ class CoseVoucherRequest < VoucherRequest
   def generate_voucher(owner, device, effective_date, nonce, expires = nil)
     CoseVoucher.create_voucher(owner: owner, device: device,
                                domainOwnerRPK: prior_voucher_request.proximityRegistrarPublicKey,
-                               effective_date: effective_date, nonce: nonce, expires: expires)
+                               effective_date: effective_date, nonce: nonce, expires: expires,
+                               voucher_request: self)
   end
 
 

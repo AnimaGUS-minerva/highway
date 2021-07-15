@@ -50,7 +50,7 @@ gem "json", ">= 2.3.0"
 gem "activerecord", ">= 5.2.4.5"
 gem "rexml", ">= 3.2.5"
 gem "actionpack", ">= 5.2.4.6"
-
+gem "addressable", ">= 2.8.0"
 
 # for LetsEncrypt
 gem 'acme-client'

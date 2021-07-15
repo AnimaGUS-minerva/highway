@@ -164,6 +164,21 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
       end
     end
 
+    it "POST a constrained voucher request without client certificate, but having x5bag" do
+      token = IO::read("spec/files/parboiled_vr_00-D0-E5-F2-00-02.vrq")
+
+      expect {
+        post "/.well-known/est/requestvoucher", params: token, headers: {
+               'CONTENT_TYPE' => 'application/voucher-cose+cbor',
+               'ACCEPT'       => 'application/voucher-cose+cbor',
+               "SSL_CLIENT_CERT" => fountaintest_servercert
+             }
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      expect(response).to have_http_status(200)
+    end
+
+
   end
 
   describe "failing requests" do

@@ -37,6 +37,8 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
     it "POST /.well-known/brski/requestvoucher" do
       # make an HTTPS request for a new voucher
       # this is section 5.5 of RFC8995
+      # it does not provide a TLS client certificate, but relies upon the signing
+      # certificate being in the parboiled CMS contents
       token = Base64.decode64(File.read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
       expect {
 
@@ -51,6 +53,7 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
 
       expect(response).to have_http_status(200)
       expect(assigns(:voucherreq).device_identifier).to eq('00-D0-E5-F2-00-02')
+      expect(assigns(:voucherreq).tls_clientcert).to be_nil
       expect(assigns(:voucher).owner).to_not be_nil
     end
 
@@ -71,6 +74,7 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
 
       expect(ActionMailer::Base.deliveries.last.body).to include("2606:2800:220:1:248:1893:25c8:1946")
+      expect(assigns(:voucherreq).tls_clientcert).to eq(pubkey_pem)
 
       expect(response).to have_http_status(404)
     end
@@ -114,6 +118,8 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
                "SSL_CLIENT_CERT" => fountaintest_servercert
              }
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      expect(assigns(:voucherreq).tls_clientcert).to eq(fountaintest_servercert)
 
       expect(response).to have_http_status(200)
     end

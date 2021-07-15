@@ -178,6 +178,20 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
       expect(response).to have_http_status(200)
     end
 
+    it "POST a constrained voucher request from PvdS" do
+      token = IO::read("spec/files/parboiled_vr_vanderstok01.vrq")
+
+      expect {
+        post "/.well-known/est/requestvoucher", params: token, headers: {
+               'CONTENT_TYPE' => 'application/voucher-cose+cbor',
+               'ACCEPT'       => 'application/voucher-cose+cbor',
+               #"SSL_CLIENT_CERT" => pvsd_servercert
+             }
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      expect(response).to have_http_status(200)
+    end
+
 
   end
 

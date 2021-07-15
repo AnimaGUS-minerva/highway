@@ -10,12 +10,15 @@
 #    This is CoseVoucherRequest
 #
 # 4) CMS signed JSON, containing unsigned JSON.
-#    This is UnsignedVoucherRequest
+#    This is UnsignedVoucherRequest (OBSOLETE!!!)
 #
 # 5) CMS signed JSON, containing unsigned CBOR.
 #    This is not implemented as yet.
 #
 # 6) CMS signed CBOR, containing unsigned CBOR.
+#    This is not implemented as yet.
+#
+# 7) JOSE signed JSON, containing signed JSON.
 #    This is not implemented as yet.
 #
 
@@ -25,7 +28,7 @@ class VoucherRequest < ApplicationRecord
   belongs_to :device
   include FixtureSave
 
-  attr_accessor :tls_clientcert, :prior_voucher_request
+  attr_accessor :prior_voucher_request
 
   class InvalidVoucherRequest < Exception; end
   class MissingPublicKey < Exception; end

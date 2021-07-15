@@ -82,7 +82,8 @@ class EstController < ApiController
       return
     end
 
-    @voucherreq.originating_ip = request.env["REMOTE_ADDR"]
+    # capture extra info, if we didn't get it already
+    capture_client_certificate
 
     @voucherreq.save!
     @voucher,@reason = @voucherreq.issue_voucher

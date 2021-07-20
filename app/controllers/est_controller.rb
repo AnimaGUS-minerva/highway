@@ -21,9 +21,13 @@ class EstController < ApiController
       end
 
     # catch case where certificate is crap.
-    rescue OpenSSL::X509
+    rescue OpenSSL::X509, OpenSSL::X509::CertificateError
       capture_bad_request(code: 406,
                           msg: "client certificate was not well formatted")
+
+    rescue
+      capture_bad_request(code: 406,
+                          msg: "client certificate processing had error #{$!}")
     end
 
     logger.info "Processing Voucher-Request of type: '#{@replytype}'"
@@ -158,6 +162,7 @@ class EstController < ApiController
     clientcert_pem = request.env["SSL_CLIENT_CERT"]
     clientcert_pem ||= request.env["rack.peer_cert"]
     if @voucherreq
+      @voucherreq.raw_request = request.env.to_s
       if clientcert_pem
         @voucherreq.tls_clientcert = clientcert_pem
       end

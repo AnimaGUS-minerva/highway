@@ -15,6 +15,12 @@ class EstController < ApiController
 
     begin
       cert_pem = capture_client_certificate
+      if cert_pem.blank?
+        capture_bad_request(code: 406,
+                            msg: "client certificate seems blank")
+        return
+      end
+
       if cert_pem
         @clientcert = OpenSSL::X509::Certificate.new(cert_pem)
         log_client_certificate(@clientcert)

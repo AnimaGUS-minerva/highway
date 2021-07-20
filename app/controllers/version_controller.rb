@@ -11,7 +11,11 @@ class VersionController < ActionController::Base
         data = Hash.new
         data['version'] = $VERSION
         data['revision']= $REVISION
-        data['Hostname'] = SystemVariable.hostname,
+        data['Hostname'] = SystemVariable.hostname
+        cert = request.env['SSL_CLIENT_CERT'] || request.env["rack.peer_cert"]
+        unless cert.blank?
+          data['client_certificate'] = cert
+        end
         api_response(data, :ok, 'application/json')
       }
     end

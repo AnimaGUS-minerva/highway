@@ -23,7 +23,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', group: :doc
 
 # raven for sentry.io
-gem "sentry-raven"
+gem "sentry-ruby"
+gem "sentry-rails"
 
 # minimization is turned off.
 #gem 'uglifier'

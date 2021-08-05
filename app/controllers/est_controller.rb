@@ -16,8 +16,9 @@ class EstController < ApiController
     begin
       cert_pem = capture_client_certificate
       if cert_pem.blank?
-        capture_bad_request(code: 406,
-                            msg: "client certificate seems blank")
+        vr = capture_bad_request(code: 406,
+                                 msg: "client certificate seems to be missing")
+        DeviceNotifierMailer.invalid_voucher_request(request, vr).deliver
         return
       end
 

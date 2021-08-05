@@ -181,6 +181,7 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
 
     it "POST a constrained voucher request from PvdS" do
       token = IO::read("spec/files/parboiled_vr_vanderstok01.vrq")
+      pending "revisions from peter expected"
 
       expect {
         post "/.well-known/est/requestvoucher", params: token, headers: {

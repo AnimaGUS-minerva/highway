@@ -36,11 +36,12 @@ RSpec.describe 'BRSKI-MASA EST API', type: :request do
 
     it "POST /.well-known/est/requestvoucher" do
       # make an HTTPS request for a new voucher
-      # this is section 3.3 of RFCXXXX/draft-ietf-anima-dtbootstrap-anima-keyinfra
+      # this is section 3.3 of RFC8995
       token = Base64.decode64(File.read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
       post "/.well-known/est/requestvoucher", params: token, headers: {
              'CONTENT_TYPE' => 'application/voucher-cms+json',
-             'ACCEPT'       => 'application/voucher-cms+json'
+             'ACCEPT'       => 'application/voucher-cms+json',
+             'SSL_CLIENT_CERT'=> registrar_cert
            }
 
       expect(response).to have_http_status(200)
@@ -149,11 +150,6 @@ RSpec.describe 'BRSKI-MASA EST API', type: :request do
       end
     end
 
-  end
-
-  def registrar_cert
-    regfile= File.join("spec","files","jrc_prime256v1.crt")
-    pubkey_pem = IO::read(regfile)
   end
 
   describe "failing requests" do

@@ -36,3 +36,8 @@ def fountaintest_servercert
   @fountaintest_servercert ||= IO.binread("spec/files/fountaintest.pem")
 end
 
+def registrar_cert
+  regfile= File.join("spec","files","jrc_prime256v1.crt")
+  @pubkey_pem ||= IO::read(regfile)
+end
+

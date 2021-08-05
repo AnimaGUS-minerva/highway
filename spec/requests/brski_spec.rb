@@ -39,6 +39,9 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
       # this is section 5.5 of RFC8995
       # it does not provide a TLS client certificate, but relies upon the signing
       # certificate being in the parboiled CMS contents
+
+      # NEED TO THINK ABOUT THIS ONE.
+
       token = Base64.decode64(File.read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
       expect {
 
@@ -244,11 +247,12 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
 
     it "expect f20002 to have one owner" do
       # make an HTTPS request for a history of owners for a device.
-      # this is section 5.7 of RFCXXXX/draft-ietf-anima-dtbootstrap-anima-keyinfra
+      # this is section 5.7 of RFC8995
       token = Base64.decode64(IO::read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
       post "/.well-known/brski/requestvoucher", params: token, headers: {
              'CONTENT_TYPE' => 'application/voucher-cms+json',
-             'ACCEPT'       => 'application/voucher-cms+json'
+             'ACCEPT'       => 'application/voucher-cms+json',
+             'SSL_CLIENT_CERT'=> registrar_cert
            }
       expect(response).to have_http_status(200)
 

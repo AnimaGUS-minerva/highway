@@ -31,7 +31,7 @@ set :assets_roles, []
 
 # Default value for :linked_files is []
 append :linked_files, "config/database.yml", "config/secrets.yml", "config/environments/production.rb", "config/acme.yml"
-append :linked_files, "config/environments/sentry.rb"
+append :linked_files, "config/initializers/sentry.rb"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "db/cert", "db/devices", "db/inventory", "log", "tmp", "turris_root"

@@ -22,6 +22,7 @@ class DeviceNotifierMailer < ApplicationMailer
     @originating_ip = request.env["REMOTE_ADDR"]
     @hostname = SystemVariable.string(:hostname)
     @voucher_req = voucher_req
+    @rejectmsg   = @voucher_req.details["returned_message"]
     mail(to: ENV['USER'], subject: "Invalid voucher request")
   end
 

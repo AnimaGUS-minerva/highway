@@ -40,8 +40,6 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
       # it does not provide a TLS client certificate, but relies upon the signing
       # certificate being in the parboiled CMS contents
 
-      # NEED TO THINK ABOUT THIS ONE.
-
       token = Base64.decode64(File.read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
       expect {
 

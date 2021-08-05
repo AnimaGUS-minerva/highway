@@ -7,6 +7,7 @@ class EstController < ApiController
 
   def requestvoucher
 
+    #byebug
     @clientcert = nil
     @replytype  = request.content_type
     if @replytype.blank?

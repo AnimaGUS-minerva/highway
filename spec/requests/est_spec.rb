@@ -151,13 +151,15 @@ RSpec.describe 'BRSKI-MASA EST API', type: :request do
 
   end
 
+  def registrar_cert
+    regfile= File.join("spec","files","jrc_prime256v1.crt")
+    pubkey_pem = IO::read(regfile)
+  end
+
   describe "failing requests" do
     it "with broken crypto should be stored to voucher request table" do
 
       token = Base64.decode64(IO::read("spec/files/parboiled_vr_broken-00-D0-E5-F2-00-02.b64"))
-      regfile= File.join("spec","files","jrc_prime256v1.crt")
-      pubkey_pem = IO::read(regfile)
-
       expect {
         post "/.well-known/est/requestvoucher", params: token, headers: {
                'CONTENT_TYPE' => 'application/voucher-cms+json',
@@ -173,11 +175,12 @@ RSpec.describe 'BRSKI-MASA EST API', type: :request do
   describe "audit log request" do
     it "expect f20002 to be empty" do
       # make an HTTPS request for a history of owners for a device.
-      # this is section 5.7 of RFCXXXX/draft-ietf-anima-dtbootstrap-anima-keyinfra
+      # this is section 5.7 of RFC8995
       token = Base64.decode64(IO::read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
       post "/.well-known/est/requestauditlog", params: token, headers: {
              'CONTENT_TYPE' => 'application/voucher-cms+json',
-             'ACCEPT'       => 'application/voucher-cms+json'
+             'ACCEPT'       => 'application/voucher-cms+json',
+             'SSL_CLIENT_CERT'=> registrar_cert
            }
 
       expect(response).to have_http_status(404)
@@ -188,7 +191,8 @@ RSpec.describe 'BRSKI-MASA EST API', type: :request do
       token = Base64.decode64(IO::read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
       post "/.well-known/est/requestauditlog", params: token, headers: {
              'CONTENT_TYPE' => 'application/voucher-cms+json',
-             'ACCEPT'       => 'application/voucher-cms+json'
+             'ACCEPT'       => 'application/voucher-cms+json',
+             'SSL_CLIENT_CERT'=> registrar_cert
            }
 
       expect(response).to have_http_status(200)
@@ -200,11 +204,12 @@ RSpec.describe 'BRSKI-MASA EST API', type: :request do
 
     it "expect f20002 to have one owner" do
       # make an HTTPS request for a history of owners for a device.
-      # this is section 5.7 of RFCXXXX/draft-ietf-anima-dtbootstrap-anima-keyinfra
+      # this is section 5.7 of RFC8995
       token = Base64.decode64(IO::read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))
       post "/.well-known/est/requestvoucher", params: token, headers: {
              'CONTENT_TYPE' => 'application/voucher-cms+json',
-             'ACCEPT'       => 'application/voucher-cms+json'
+             'ACCEPT'       => 'application/voucher-cms+json',
+             'SSL_CLIENT_CERT'=> registrar_cert
            }
       expect(response).to have_http_status(200)
 

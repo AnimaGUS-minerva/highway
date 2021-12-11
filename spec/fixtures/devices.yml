@@ -204,7 +204,8 @@ f21005:
   serial_number: 00-D0-E5-F2-00-05
 
 # this fixture is used for smarkaklink testing
-# the key pair are in spec/files/product/Smarkaklink-n3ce618
+#
+# the key pair are in spec/files/product/Smarkaklink-n3ce618 (in fountain, reach)
 # the certificate has Validity
 #            Not Before: May  3 19:52:12 2019 GMT
 #            Not After : Dec 31 00:00:00 2999 GMT
@@ -215,8 +216,36 @@ f21005:
 shgmudhighway31:
   id: 31
   eui64: 3c-97-0e-b9-cd-98
-  pub_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr4FGUQyOc8AAogrcaCYdJmkohj57+cvdp99aN3x58Zeqd5BDiLYxLj7mrDRbiOGqlKiCIIF96x8DmabKchfPQOCvx/fcGaYoWbrTuFqiS5h1NzbW0pPneOiD5GmaNRppOv/ka6oKFDQkXzmp40rgj3aY1xW9z0si6E4hY+3NyR6Qd9t/5ZUpfURaYSSwiqxsoujBD4eHfZUPfUgb6/l/Gq9KsxUy1s6kSWQA0ZLDeTcQ+KBmsORP/uF0d8S+tU2MxzIG5Ddr/0jKoPLe7CvRxbBXCHewSipZEB5gcZn68DTnqwiOZcLvyUwApaXdlNgApIfdtm/jGDOoABOXEm9JlwIDAQAB
+  pub_key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7Vr983Ya8xiFvLAA2wgNH0fgGwUA6FGsN5yzkDIYoXQRwLwa2RSkLRluJ8/RGQzUBAOQVe1HMrJijdteV0hJA==
   serial_number: 3c-97-0e-b9-cd-98
+  obsolete: false
+  idevid_cert: |
+    -----BEGIN CERTIFICATE-----
+    MIICHTCCAaOgAwIBAgIEaJGc0zAKBggqhkjOPQQDAjBdMQ8wDQYDVQQGEwZDYW5h
+    ZGExEDAOBgNVBAgMB09udGFyaW8xEjAQBgNVBAsMCVNhbmRlbG1hbjEkMCIGA1UE
+    AwwbaGlnaHdheS10ZXN0LmV4YW1wbGUuY29tIENBMCAXDTE5MDUwODIxNTg1MloY
+    DzI5OTkxMjMxMDAwMDAwWjB8MSwwKgYDVQQDDCNuM0NFNjE4LnJvdXRlci5zZWN1
+    cmVob21lZ2F0ZXdheS5jYTEaMBgGA1UEBQwRM2MtOTctMGUtYjktY2QtOTgxMDAu
+    BgNVBAMMJ211ZC5uM0NFNjE4LnJvdXRlci5zZWN1cmVob21lZ2F0ZXdheS5jYTBZ
+    MBMGByqGSM49AgEGCCqGSM49AwEHA0IABHO1a/fN2GvMYhbywANsIDR9H4BsFAOh
+    RrDecs5AyGKF0EcC8GtkUpC0ZbifP0RkM1AQDkFXtRzKyYo3bXldISSjMDAuMCwG
+    CSsGAQQBgu5SAgQfDB1oaWdod2F5LXRlc3QuZXhhbXBsZS5jb206OTQ0MzAKBggq
+    hkjOPQQDAgNoADBlAjANPhANmOhz6i2U3uyBkhoOnLa0l8wO38WZup0x1AJ3F22E
+    Xc0qSDujLHbWG08QhpACMQDHH1X6hGROCft0qtcy9l6BfH/nzjwZGEELiLKzwwwE
+    Lo7z/Dd3hX00Pgx8hFLSaWw=
+    -----END CERTIFICATE-----
+  ula: 'fd3c:e618:51e2::'
+  extra_attrs:
+    register_ip: "::3"
+    tofu_register: true
+  second_eui64: 6c-88-14-34-93-bc
+
+# as as id:31, but this has an RSA key.
+shgmudhighway33rsa:
+  id: 33
+  eui64: 3c-97-0e-b9-cd-9a
+  pub_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr4FGUQyOc8AAogrcaCYdJmkohj57+cvdp99aN3x58Zeqd5BDiLYxLj7mrDRbiOGqlKiCIIF96x8DmabKchfPQOCvx/fcGaYoWbrTuFqiS5h1NzbW0pPneOiD5GmaNRppOv/ka6oKFDQkXzmp40rgj3aY1xW9z0si6E4hY+3NyR6Qd9t/5ZUpfURaYSSwiqxsoujBD4eHfZUPfUgb6/l/Gq9KsxUy1s6kSWQA0ZLDeTcQ+KBmsORP/uF0d8S+tU2MxzIG5Ddr/0jKoPLe7CvRxbBXCHewSipZEB5gcZn68DTnqwiOZcLvyUwApaXdlNgApIfdtm/jGDOoABOXEm9JlwIDAQAB
+  serial_number: 3c-97-0e-b9-cd-9a
   obsolete: false
   idevid_cert: |
     -----BEGIN CERTIFICATE-----
@@ -237,11 +266,11 @@ shgmudhighway31:
     RQW+CnmYgZbiJRbS6wIwCni08l7vLu2w4gSjSeWZ4k79mQwbnQZKo43Pd7mQMdUO
     1faDyAi9tkWdMv7oyNfc
     -----END CERTIFICATE-----
-  ula: 'fd3c:e618:51e2::'
+  ula: 'fd3c:e618:51e3::'
   extra_attrs:
     register_ip: "::3"
     tofu_register: true
-  second_eui64: 6c-88-14-34-93-bc
+  second_eui64: 6c-88-14-34-93-bd
 
 # this fixture is used for smarkaklink testing, and represents an owned key pair
 # items are in fountain/spec/files/product/Smarkaklink-n3ce6b3
@@ -380,9 +409,9 @@ device_40:
   id: 40
   eui64: 00-d0-e5-02-00-02
   pub_key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEhWpNLLGi989oD3WswmnYJA0gqTpU7MQ+X0x8W1OKm9eHOXhwfK3TKegdGhTKdt56gIj7KfpGeEbWRynjH8HqbA==
-  owner_id: 
-  model_id: 
-  notes: 
+  owner_id:
+  model_id:
+  notes:
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &1 2020-09-23 20:53:34.935335000 Z
     zone: &2 !ruby/object:ActiveSupport::TimeZone
@@ -426,7 +455,7 @@ device_40:
   fqdn: n23cd87.r.dasblinkenled.org
   essid: SHG23CD87
   ula: fd23:cd87::1
-  extra_attrs: 
+  extra_attrs:
   second_eui64: 00-d0-e5-f2-00-02
   othercerts: |
     -----BEGIN CERTIFICATE-----
@@ -456,4 +485,4 @@ device_40:
     PfZ+G6Z6h7mjem0Y+iWlkYcV4PIWL1iwBi8saCbGS5jN2p8M+X+Q7UNKEkROb3N6
     KOqkqm57TH2H3eDJAkSnh6/DNFu0Qg==
     -----END CERTIFICATE-----
-  rfc1918: 
+  rfc1918:

@@ -20,7 +20,6 @@ PATH
   remote: /app/minerva/ruby-openssl
   specs:
     openssl (2.2.0.pre.mcr1)
-      ipaddr
 
 PATH
   remote: /app/minerva/ruby_ecdsa
@@ -30,7 +29,7 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    acme-client (2.0.8)
+    acme-client (2.0.9)
       faraday (>= 0.17, < 2.0.0)
     actioncable (5.2.4.6)
       actionpack (= 5.2.4.6)
@@ -81,7 +80,7 @@ GEM
     cbor (0.5.9.6)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
-    daemons (1.4.0)
+    daemons (1.4.1)
     declarative (0.0.20)
     devise (4.8.0)
       bcrypt (~> 3.0)
@@ -91,7 +90,7 @@ GEM
       warden (~> 1.2.3)
     erubi (1.10.0)
     eventmachine (1.2.7)
-    faraday (1.5.1)
+    faraday (1.8.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -99,6 +98,7 @@ GEM
       faraday-net_http (~> 1.0)
       faraday-net_http_persistent (~> 1.1)
       faraday-patron (~> 1.0)
+      faraday-rack (~> 1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords (>= 0.0.4)
     faraday-em_http (1.0.0)
@@ -108,14 +108,15 @@ GEM
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
-    ffi (1.15.3)
+    faraday-rack (1.0.0)
+    ffi (1.15.4)
     gems (1.2.0)
-    globalid (0.4.2)
-      activesupport (>= 4.2.0)
+    globalid (1.0.0)
+      activesupport (>= 5.0)
     google-api-client (0.53.0)
       google-apis-core (~> 0.1)
       google-apis-generator (~> 0.1)
-    google-apis-core (0.4.0)
+    google-apis-core (0.4.1)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
       httpclient (>= 2.8.1, < 3.a)
@@ -124,7 +125,7 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-discovery_v1 (0.6.0)
+    google-apis-discovery_v1 (0.7.0)
       google-apis-core (>= 0.4, < 2.a)
     google-apis-generator (0.4.0)
       activesupport (>= 5.0)
@@ -132,28 +133,27 @@ GEM
       google-apis-core (>= 0.4, < 2.a)
       google-apis-discovery_v1 (~> 0.5)
       thor (>= 0.20, < 2.a)
-    googleauth (0.16.2)
+    googleauth (1.1.0)
       faraday (>= 0.17.3, < 2.0)
       jwt (>= 1.4, < 3.0)
       memoist (~> 0.16)
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
-      signet (~> 0.14)
+      signet (>= 0.16, < 2.a)
     http-accept (2.1.1)
     httpclient (2.8.3)
-    i18n (1.8.10)
+    i18n (1.8.11)
       concurrent-ruby (~> 1.0)
-    ipaddr (1.2.2)
     ipaddress (0.8.3)
-    jbuilder (2.11.2)
+    jbuilder (2.11.3)
       activesupport (>= 5.0.0)
     jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    jwt (2.2.3)
+    jwt (2.3.0)
     log4r (1.1.10)
-    loofah (2.10.0)
+    loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -165,21 +165,21 @@ GEM
     mimemagic (0.3.10)
       nokogiri (~> 1)
       rake
-    mini_mime (1.1.0)
-    mini_portile2 (2.5.3)
+    mini_mime (1.1.2)
+    mini_portile2 (2.6.1)
     minitest (5.14.4)
     multi_json (1.15.0)
     multipart-post (2.1.1)
-    netaddr (2.0.4)
-    nio4r (2.5.7)
-    nokogiri (1.11.7)
-      mini_portile2 (~> 2.5.0)
+    netaddr (2.0.5)
+    nio4r (2.5.8)
+    nokogiri (1.12.5)
+      mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     orm_adapter (0.5.0)
-    os (1.1.1)
+    os (1.1.4)
     pg (0.21.0)
     public_suffix (4.0.6)
-    racc (1.5.2)
+    racc (1.6.0)
     rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -199,7 +199,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.3.0)
+    rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
     rails-static-router (1.0.4)
       railties (>= 4.1, < 6.2)
@@ -219,7 +219,7 @@ GEM
       railties (>= 5.0)
     retriable (3.1.2)
     rexml (3.2.5)
-    ruby2_keywords (0.0.4)
+    ruby2_keywords (0.0.5)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.3.0)
@@ -230,19 +230,27 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sentry-raven (3.1.2)
+    sentry-rails (4.8.1)
+      railties (>= 5.0)
+      sentry-ruby-core (~> 4.8.1)
+    sentry-ruby (4.8.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
       faraday (>= 1.0)
-    signet (0.15.0)
-      addressable (~> 2.3)
+      sentry-ruby-core (= 4.8.1)
+    sentry-ruby-core (4.8.1)
+      concurrent-ruby
+      faraday
+    signet (0.16.0)
+      addressable (~> 2.8)
       faraday (>= 0.17.3, < 2.0)
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.2.2)
-      actionpack (>= 4.0)
-      activesupport (>= 4.0)
+    sprockets-rails (3.4.1)
+      actionpack (>= 5.2)
+      activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
     thin (1.8.1)
@@ -252,7 +260,7 @@ GEM
     thor (1.1.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    trailblazer-option (0.1.1)
+    trailblazer-option (0.1.2)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -272,7 +280,6 @@ PLATFORMS
 DEPENDENCIES
   acme-client
   actionpack (>= 5.2.4.6)
-  addressable (>= 2.8.0)
   chariwt!
   devise (>= 4.7.1)
   dns-update!
@@ -297,7 +304,8 @@ DEPENDENCIES
   rexml (>= 3.2.5)
   sass-rails
   sassc (~> 2.3.0)
-  sentry-raven
+  sentry-rails
+  sentry-ruby
   sqlite3
   thin
   turbolinks
@@ -305,4 +313,4 @@ DEPENDENCIES
   websocket-extensions (>= 0.1.5)
 
 BUNDLED WITH
-   2.2.4
+   2.2.25

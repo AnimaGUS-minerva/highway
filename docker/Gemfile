@@ -22,7 +22,8 @@ gem 'ipaddress'
 gem 'jbuilder', '~> 2.0'
 
 # raven for sentry.io
-gem "sentry-raven"
+gem "sentry-ruby"
+gem "sentry-rails"
 
 gem 'openssl', :path => '/app/minerva/ruby-openssl'
 gem 'sassc', "~> 2.3.0"    # because compiled extension

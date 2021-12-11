@@ -1,4 +1,4 @@
-FROM mcr314/minerva_builder:v202101 as builder
+FROM mcr314/minerva_builder:v202112 as builder
 
 RUN mkdir -p /app/highway
 ADD ./docker/Gemfile      /app/highway/Gemfile

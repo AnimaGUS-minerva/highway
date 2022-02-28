@@ -9,7 +9,7 @@ RUN sha256sum /app/minerva/dns-update/lib/dns-update/validate.rb
 WORKDIR /app/highway
 RUN bundle config setup system true
 RUN bundle config set --local deployment false
-RUN bundle install --gemfile=/app/highway/Gemfile && bundle check
+RUN bundle update --gemfile=/app/highway/Gemfile && bundle check
 
 # install items for use in debugging
 RUN apt-get update

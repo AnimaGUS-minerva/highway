@@ -59,4 +59,5 @@ gem 'chariwt', :path => '/app/minerva/chariwt'
 gem 'jwt'
 
 gem 'thin'
-gem 'google-api-client'
+gem 'googleauth'
+gem 'google-apis-fcm_v1'

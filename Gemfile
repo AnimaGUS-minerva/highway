@@ -82,6 +82,10 @@ gem 'jwt'
 
 gem 'thin'
 
+# This is used for notifying clients, based upon provisioned devices
+gem 'googleauth'
+gem 'google-apis-fcm_v1'
+
 # just in case we need it.
 # Call 'byebug' anywhere in the code to stop execution and get a debugger console
 gem 'byebug'

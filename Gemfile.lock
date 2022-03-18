@@ -39,6 +39,7 @@ PATH
   remote: ../minerva/ruby-openssl
   specs:
     openssl (2.2.0.pre.mcr1)
+      ipaddr
 
 GEM
   remote: https://rubygems.org/
@@ -174,6 +175,7 @@ GEM
     httpclient (2.8.3)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
+    ipaddr (1.2.4)
     ipaddress (0.8.3)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)

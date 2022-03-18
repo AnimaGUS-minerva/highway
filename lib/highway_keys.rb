@@ -112,7 +112,7 @@ class HighwayKeys
     sign_certificate(certname, nil, privkeyfile,
                      pubkeyfile, dnobj, 2*365*24*60*60) { |cert,ef|
       cert.add_extension(ef.create_extension("basicConstraints","CA:FALSE",true))
-      cert.add_extension(ef.create_extension("authorityKeyIdentifier","keyid:always",false))
+      cert.add_extension(ef.create_extension("authorityKeyIdentifier","issuer",false))
     }
   end
 

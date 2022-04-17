@@ -1,7 +1,7 @@
 #!/bin/sh
 
 cd $(dirname $0)/..
-docker build -t mcr314/minerva_highway:v202202 -f docker/highway.Dockerfile.x86_64 .
-docker push mcr314/minerva_highway:v202202
+docker build -t mcr314/minerva_highway:v202204 -f docker/highway.Dockerfile.x86_64 .
+docker push mcr314/minerva_highway:v202204
 
 

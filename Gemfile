@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.6.2'
+gem 'rails', "~> 5.2.7.1"
 gem 'cow_proxy', :git => 'https://github.com/mcr/cow_proxy.git'
 
 # Use postgresql as the database for Active Record
@@ -52,6 +52,7 @@ gem "activerecord", ">= 5.2.4.5"
 gem "rexml", ">= 3.2.5"
 gem "actionpack", ">= 5.2.6.2"
 gem "addressable", ">= 2.8.0"
+gem "actionview", ">= 5.2.7.1"
 
 # for LetsEncrypt
 gem 'acme-client'

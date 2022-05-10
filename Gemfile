@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 gem 'rails', "~> 5.2.7.1"
 gem 'cow_proxy', :git => 'https://github.com/mcr/cow_proxy.git'
 
+gem 'psych', '~> 3.3'
+
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15'
 gem 'sqlite3'

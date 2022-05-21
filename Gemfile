@@ -79,8 +79,8 @@ gem 'multipart_body', :git => 'https://github.com/AnimaGUS-minerva/multipart_bod
 gem 'ecdsa',   :git => 'https://github.com/AnimaGUS-minerva/ruby_ecdsa.git', :branch => 'ecdsa_interface_openssl'
 #gem 'ecdsa',   :path => '../minerva/ruby_ecdsa'
 
-#gem 'chariwt', :path => '../chariwt'
-gem 'chariwt', :git => 'https://github.com/AnimaGUS-minerva/ChariWTs.git', :branch => 'v0.9.0'
+gem 'chariwt', :path => '../chariwt'
+#gem 'chariwt', :git => 'https://github.com/AnimaGUS-minerva/ChariWTs.git', :branch => 'v0.9.0'
 gem 'jwt'
 
 gem 'thin'

@@ -18,10 +18,10 @@ class CoseVoucherRequest < VoucherRequest
       raise InvalidVoucherRequest
     end
     hash = vr.sanitized_hash
-    voucher = create(details: hash, voucher_request: token)
-    voucher.validated=false
-    voucher.parse!(vr)
-    voucher
+    vreq = create(voucher_request: token)
+    vreq.validated=false
+    vreq.parse!(vr)
+    vreq
   end
 
   def parse!(vr = nil)

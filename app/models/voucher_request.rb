@@ -29,6 +29,7 @@ class VoucherRequest < ApplicationRecord
   include FixtureSave
 
   attr_accessor :prior_voucher_request
+  before_save :encode_details
 
   class InvalidVoucherRequest < Exception; end
   class MissingPublicKey < Exception; end
@@ -81,8 +82,23 @@ class VoucherRequest < ApplicationRecord
     self.validated = true
   end
 
+  def encode_details
+    self.encoded_details = details.to_cbor
+  end
+
+  def decode_details
+    thing = nil
+    unless encoded_details.blank?
+      unpacker = CBOR::Unpacker.new(StringIO.new(self.encoded_details))
+      unpacker.each { |things|
+        thing = things
+      }
+    end
+    thing
+  end
+
   def details
-    self[:details] ||= Hash.new
+    @details ||= decode_details || Hash.new
   end
 
   def validate_prior!

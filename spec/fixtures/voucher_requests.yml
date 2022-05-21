@@ -3,31 +3,11 @@ sample_request1:
   originating_ip: "127.0.0.1:9984"
   nonce: "Y2hhaDJlamVpejdhZUgxVGhhaWthdGVpNVNpaTdqb2gK"
   device_identifier: "abcd12345"
-  details:
-    ietf-voucher:voucher:
-      assertion: ''
-      created-on: '2016-10-07T19:31:42+00:00'
-      expires-on: '2017-10-01T00:00:00+00:00'
-      serial-number: JADA123456789
-      pinned-domain-cert:
-      - '3939303031313232333334343535'
-      nonce: "abcd12345"
 
 voucher13:
   id: 13
   type: CmsVoucherRequest
   validated: true
-  details:
-    assertion: proximity
-    created-on: '2017-10-12T17:54:30.767+00:00'
-    serial-number: 00-D0-E5-F2-00-02
-    nonce: Dss99sBr3pNMOACe-LYY7w
-    prior-signed-voucher-request:
-      assertion: proximity
-      created-on: '2017-09-01T00:00:00.000+00:00'
-      serial-number: 00-D0-E5-F2-00-02
-      nonce: Dss99sBr3pNMOACe-LYY7w
-      proximity-registrar-cert: MIIBrjCCATOgAwIBAgIBAzAKBggqhkjOPQQDAzBOMRIwEAYKCZImiZPyLGQBGRYCY2ExGTAXBgoJkiaJk/IsZAEZFglzYW5kZWxtYW4xHTAbBgNVBAMMFFVuc3RydW5nIEZvdW50YWluIENBMB4XDTE3MDkwNTAxMTI0NVoXDTE5MDkwNTAxMTI0NVowQzESMBAGCgmSJomT8ixkARkWAmNhMRkwFwYKCZImiZPyLGQBGRYJc2FuZGVsbWFuMRIwEAYDVQQDDAlsb2NhbGhvc3QwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQ1ZA7Nw0xSM/Q2u194FzQMktZ94waAIV0i/oVTPgOJ8zW6MwF5z+Dpb8/puhObJMZ0U6H/wfApR6svlumd4ryyow0wCzAJBgNVHRMEAjAAMAoGCCqGSM49BAMDA2kAMGYCMQC3/iTQJ3evYYcgbXhbmzrp64t3QC6qjIeY2jkDx062nuNifVKtyaara3F30AIkKSECMQDi29efbTLbdtDk3tecY/rD7V77XaJ6nYCmdDCR54TrSFNLgxvt1lyFM+0fYpYRc3o=
   owner_id: 1
   voucher_id: 45
   device_id: 12
@@ -90,13 +70,6 @@ voucher14:
     QDAHBgUrDgMCBzANBggqhkiG9w0DAgIBKDAKBggqhkjOPQQDAgRHMEUCIHi5
     21RiK3WmyknVt/Nk953FL12/hamqTvlbN95FailSAiEA/9Ve/IHhFksygGHU
     6h1ATWkKVr388ZdeSTn8EHbCsxQ=
-  details:
-    ietf-voucher:voucher:
-      assertion: ''
-      created-on: '2016-10-07T19:31:42+00:00'
-      expires-on: '2017-10-01T00:00:00+00:00'
-      serial-number: JADA123456789
-      nonce: abcd12345
   owner_id: 446739022
   device_id: 11
   originating_ip: "127.0.0.1:9984"
@@ -111,13 +84,6 @@ voucher15:
   type: UnsignedVoucherRequest
   signing_key:
   pledge_request:
-  details:
-    ietf-voucher:voucher:
-      assertion: ''
-      created-on: '2016-10-07T19:31:42+00:00'
-      expires-on: '2017-10-01T00:00:00+00:00'
-      serial-number: ..JADA123456789
-      nonce: abcd..12345
   owner_id: 446739022
   device_id: 11
   originating_ip: "127.0.0.1:9985"
@@ -129,17 +95,6 @@ voucher15:
 voucherreq54:
   id: 54
   type: CmsVoucherRequest
-  details:
-    assertion: proximity
-    created-on: '2017-10-12T03:44:40.088+00:00'
-    serial-number: '081196FFFE0181E0'
-    nonce: Dss99sBr3pNMOACe-LYY7w
-    prior-signed-voucher-request:
-      assertion: proximity
-      created-on: '2017-09-01T00:00:00.000+00:00'
-      serial-number: '081196FFFE0181E0'
-      nonce: Dss99sBr3pNMOACe-LYY7w
-      proximity-registrar-cert: MIIBrjCCATOgAwIBAgIBAzAKBggqhkjOPQQDAzBOMRIwEAYKCZImiZPyLGQBGRYCY2ExGTAXBgoJkiaJk/IsZAEZFglzYW5kZWxtYW4xHTAbBgNVBAMMFFVuc3RydW5nIEZvdW50YWluIENBMB4XDTE3MDkwNTAxMTI0NVoXDTE5MDkwNTAxMTI0NVowQzESMBAGCgmSJomT8ixkARkWAmNhMRkwFwYKCZImiZPyLGQBGRYJc2FuZGVsbWFuMRIwEAYDVQQDDAlsb2NhbGhvc3QwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQ1ZA7Nw0xSM/Q2u194FzQMktZ94waAIV0i/oVTPgOJ8zW6MwF5z+Dpb8/puhObJMZ0U6H/wfApR6svlumd4ryyow0wCzAJBgNVHRMEAjAAMAoGCCqGSM49BAMDA2kAMGYCMQC3/iTQJ3evYYcgbXhbmzrp64t3QC6qjIeY2jkDx062nuNifVKtyaara3F30AIkKSECMQDi29efbTLbdtDk3tecY/rD7V77XaJ6nYCmdDCR54TrSFNLgxvt1lyFM+0fYpYRc3o=
   owner_id: 1
   voucher_id: 42
   device_id: 11
@@ -157,17 +112,6 @@ voucherreq54:
 # this voucher request has a newer certificate pinned than owner fountaintest1 has in it.
 vr67:
   id: 67
-  details:
-    assertion: proximity
-    created-on: '2019-04-25T14:50:03.651+00:00'
-    serial-number: 00-d0-e5-02-00-2d
-    nonce: geOB9febTHHuYINrhyH7FA
-    prior-signed-voucher-request:
-      assertion: proximity
-      created-on: '2019-04-25T10:50:03.644-04:00'
-      serial-number: 00-D0-E5-02-00-2D
-      nonce: geOB9febTHHuYINrhyH7FA
-      proximity-registrar-cert: MIIB0DCCAVegAwIBAgIEIo7NJzAKBggqhkjOPQQDAjBuMRIwEAYKCZImiZPyLGQBGRYCY2ExGTAXBgoJkiaJk/IsZAEZFglzYW5kZWxtYW4xPTA7BgNVBAMMNGZvdW50YWluLXRlc3QuZXhhbXBsZS5jb20KIFVuc3RydW5nIEZvdW50YWluIFJvb3QgQ0EwHhcNMTkwNDE2MTg1NDExWhcNMTkwNTE3MDQ1NDExWjBTMRIwEAYKCZImiZPyLGQBGRYCY2ExGTAXBgoJkiaJk/IsZAEZFglzYW5kZWxtYW4xIjAgBgNVBAMMGWZvdW50YWluLXRlc3QuZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASWZVByNLqf5d3mX/bwgW/pSJ6BDBIHO0aPl2QrYwCNAg9XyXyUf4SMsg5h1smIjRW0Qh/X8mq35M4F+KdM04s6MAoGCCqGSM49BAMCA2cAMGQCMDQPTm0Pn3AlU/pTvlcqzw7thYJ1tqx1mUMy+yX7OlRBHp+gLm91/Rqtt+qaYfVAngIwPmFedcjwdDKlkMjUh5i+2h60nl59jg6hGL0XoC0C8DE9FEgWAC91a1KKvRsK23Sd
   owner_id: 5
   device_id: 45
   originating_ip:

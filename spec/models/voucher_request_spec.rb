@@ -14,6 +14,18 @@ RSpec.describe VoucherRequest, type: :model do
     it { should belong_to(:device) }
   end
 
+  describe "details" do
+    it "should save detail objects" do
+      vr1 = CmsVoucherRequest.new
+      vr1.details['hello'] = "there"
+      vr1.save!
+      id = vr1.id
+
+      vr2=CmsVoucherRequest.find(id)
+      expect(vr2.details['hello']).to eq("there")
+    end
+  end
+
   describe "voucher input request" do
     it "should read a voucher request from disk" do
       token = Base64.decode64(IO::read("spec/files/parboiled_vr-00-D0-E5-F2-00-02.b64"))

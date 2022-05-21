@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_15_195927) do
+ActiveRecord::Schema.define(version: 2022_05_21_121351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,7 +77,6 @@ ActiveRecord::Schema.define(version: 2021_07_15_195927) do
   end
 
   create_table "voucher_requests", id: :serial, force: :cascade do |t|
-    t.json "details"
     t.integer "owner_id"
     t.integer "voucher_id"
     t.integer "device_id"
@@ -94,6 +93,7 @@ ActiveRecord::Schema.define(version: 2021_07_15_195927) do
     t.text "type"
     t.boolean "validated", default: false
     t.text "tls_clientcert"
+    t.binary "encoded_details"
   end
 
   create_table "vouchers", id: :serial, force: :cascade do |t|

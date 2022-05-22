@@ -36,8 +36,9 @@ class VoucherRequest < ApplicationRecord
   class InvalidDeviceSignature < Exception; end
 
   def self.from_json(json, artifact)
-    vr = create(details: json, voucher_request: artifact)
+    vr = create(voucher_request: artifact)
     vr.populate_explicit_fields
+    vr.details = json
     vr
   end
 
@@ -99,6 +100,9 @@ class VoucherRequest < ApplicationRecord
 
   def details
     @details ||= decode_details || Hash.new
+  end
+  def details=(x)
+    @details = x
   end
 
   def validate_prior!

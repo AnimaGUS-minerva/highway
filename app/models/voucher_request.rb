@@ -55,7 +55,7 @@ class VoucherRequest < ApplicationRecord
   end
 
   def proximity?
-    "proximity" == details["assertion"]
+    "proximity" == details["assertion"] || :proximity == details["assertion"]
   end
 
   def savefixturefw(fw)

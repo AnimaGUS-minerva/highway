@@ -17,8 +17,8 @@ class CoseVoucherRequest < VoucherRequest
     unless vr
       raise InvalidVoucherRequest
     end
-    hash = vr.sanitized_hash
     vreq = create(voucher_request: token)
+    vreq.details = vr.inner_attributes
     vreq.validated=false
     vreq.parse!(vr)
     vreq

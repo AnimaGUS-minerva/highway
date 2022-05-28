@@ -129,7 +129,6 @@ RSpec.describe 'BRSKI-MASA EST API', type: :request do
       token = IO::read("spec/files/parboiled_vr_00-D0-E5-F2-00-03.vrq")
       regfile= File.join("spec","files","jrc_prime256v1.crt")
       pubkey_pem = IO::read(regfile)
-      pending "Needs to have an updated constrained file"
 
       expect {
         post "/.well-known/est/requestvoucher", params: token, headers: {

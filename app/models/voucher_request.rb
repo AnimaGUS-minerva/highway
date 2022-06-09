@@ -153,4 +153,10 @@ class VoucherRequest < ApplicationRecord
     }
   end
 
+  def registrar_presented_certificate
+    unless tls_clientcert.blank?
+      @registrar_cert ||= OpenSSL::X509::Certificate.new(tls_clientcert)
+    end
+  end
+
 end

@@ -32,8 +32,9 @@ gem "sentry-rails"
 #gem 'uglifier'
 #gem 'therubyracer'
 
-# need CMS code, but not DTLS code, so do not complicate life with
-# need for openssl 1.1.1 w/patches.
+# while we need the CMS code, and the not DTLS code,
+# so it would be nice to not complicate life with need for openssl 1.1.1 w/patches
+# maintaining multiple branches is also a pain.
 #gem 'openssl', :git => 'https://github.com/CIRALabs/ruby-openssl.git', :branch => 'cms-added'
 gem 'openssl', :path => '../minerva/ruby-openssl'
 

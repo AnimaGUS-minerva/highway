@@ -127,7 +127,7 @@ RSpec.describe 'BRSKI-MASA RFC8995 (/brski) API', type: :request do
 
     it "POST a constrained voucher request signed by the wrong key, and get a 404" do
       token = IO::read("spec/files/parboiled_vr_00-D0-E5-F2-00-03.vrq")
-      regfile= File.join("spec","files","jrc_prime256v1.crt")
+      regfile= File.join("spec","files","jrc_prime256v1-bad.crt")
       pubkey_pem = IO::read(regfile)
 
       expect {

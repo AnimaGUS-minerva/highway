@@ -71,6 +71,11 @@ class EstController < ApiController
       when (@media_type.mime_type == 'application/voucher-cose+cbor')
         begin
           @voucherreq = CoseVoucherRequest.from_cbor_cose_io(request.body, @clientcert)
+        rescue Chariwt::Voucher::RequestFailedValidation
+          vr = capture_and_log_bad_request(code: 404,
+                              msg: "CBOR voucher request was incorrectly signed")
+          DeviceNotifierMailer.invalid_voucher_request(request, vr).deliver
+          return
         rescue VoucherRequest::InvalidVoucherRequest
           vr = capture_and_log_bad_request(code: 406,
                               msg: "CBOR voucher request was not signed with a known public key")

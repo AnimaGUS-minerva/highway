@@ -2,5 +2,7 @@
 Message from <%= @hostname %>
 =============================
 
-Device <%= @device.name %> was <%= @resold ? "re-" : "" %>sold to <%= @owner.name %>
-to Registrar at <%= @originating_ip %>.
+Device <%= @device.name %> [<%= @device.id %>] was <%= @resold ? "re-" : ""
+%>sold to
+Registrar at <%= @originating_ip %> with DN: <%= @owner.name %>.
+

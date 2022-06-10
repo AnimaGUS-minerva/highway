@@ -7,8 +7,8 @@ gem 'cow_proxy', :git => 'https://github.com/mcr/cow_proxy.git'
 gem 'psych', '~> 3.3'
 
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.15'
-gem 'sqlite3'
+gem 'sqlite3', "~> 1.4.0"
+gem 'pg', '~> 0.21'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

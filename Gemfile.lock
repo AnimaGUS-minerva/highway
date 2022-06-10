@@ -43,7 +43,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    acme-client (2.0.10)
+    acme-client (2.0.11)
       faraday (>= 1.0, < 3.0.0)
       faraday-retry (~> 1.0)
     actioncable (5.2.7.1)
@@ -100,7 +100,7 @@ GEM
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
-    capistrano-bundler (2.0.1)
+    capistrano-bundler (2.1.0)
       capistrano (~> 3.1)
     capistrano-passenger (0.2.1)
       capistrano (~> 3.0)
@@ -166,7 +166,7 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (2.6.2)
-    jwt (2.3.0)
+    jwt (2.4.1)
     log4r (1.1.10)
     loofah (2.18.0)
       crass (~> 1.0.2)
@@ -217,7 +217,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.2)
+    rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
     rails-static-router (1.0.6)
       railties (>= 5.0, < 7.1)
@@ -357,7 +357,7 @@ DEPENDENCIES
   netaddr (>= 2.0.4)
   nokogiri (>= 1.13.5)
   openssl!
-  pg (~> 0.15)
+  pg (~> 0.21)
   psych (~> 3.3)
   rack (>= 2.2.3.1)
   rails (~> 5.2.7.1)
@@ -375,7 +375,7 @@ DEPENDENCIES
   shoulda
   shoulda-matchers
   spring
-  sqlite3
+  sqlite3 (~> 1.4.0)
   thin
   turbolinks
   vcr

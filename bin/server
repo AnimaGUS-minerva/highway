@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # see if rvm already initialized
-if [ -z "${MY_RUBY_HOME}" ]; then
-  . /etc/profile.d/rvm.sh
-  rvm use 2.6.1
+if [ -z "${MY_RUBY_HOME}" ] && [ -r /etc/profile.d/rvm.sh ]; then
+    . /etc/profile.d/rvm.sh
+    # previous default
+    rvm use 2.6.1
 fi
 
 echo RUNNING in `pwd`

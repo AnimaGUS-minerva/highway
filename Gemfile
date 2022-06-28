@@ -81,7 +81,8 @@ gem 'ecdsa',   :git => 'https://github.com/AnimaGUS-minerva/ruby_ecdsa.git', :br
 #gem 'ecdsa',   :path => '../minerva/ruby_ecdsa'
 
 #gem 'chariwt', :path => '../chariwt'
-gem 'chariwt', :git => 'https://github.com/AnimaGUS-minerva/ChariWTs.git', :branch => 'v0.9.2'
+# need version 0.11.0 to get correct date and nonce types
+gem 'chariwt', :git => 'https://github.com/AnimaGUS-minerva/ChariWTs.git', :branch => 'v0.11.0'
 gem 'jwt'
 
 gem 'thin'

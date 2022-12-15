@@ -1,10 +1,8 @@
-FROM mcr314/minerva_builder:v202212 as builder
+FROM dockerhub.gatineau.credil.org/minerva/minerva_builder:v202212 as builder
 
 RUN mkdir -p /app/highway
 ADD ./docker/Gemfile      /app/highway/Gemfile
 ADD ./docker/Gemfile.lock /app/highway/Gemfile.lock
-
-RUN sha256sum /app/minerva/dns-update/lib/dns-update/validate.rb
 
 WORKDIR /app/highway
 RUN bundle config setup system true

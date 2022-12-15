@@ -21,3 +21,5 @@ run
 firebase-debug.log
 database-debug.log
 ui-debug.log
+.byebug_history
+config/database.yml

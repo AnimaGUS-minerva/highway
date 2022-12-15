@@ -1,11 +1,13 @@
-FROM mcr314/minerva_builder:v202204 as builder
+FROM dockerhub.gatineau.credil.org/minerva/minerva_builder:v202212 as builder
 
 RUN mkdir -p /app/highway
 ADD ./docker/Gemfile      /app/highway/Gemfile
 ADD ./docker/Gemfile.lock /app/highway/Gemfile.lock
 
 WORKDIR /app/highway
+RUN git config --global pull.ff only
 RUN bundle config setup system true
+RUN bundle config set --local development 'false'
 RUN bundle update --gemfile=/app/highway/Gemfile && \
     bundle check
 

@@ -9,6 +9,7 @@ docker build -t ${ver} -f docker/highway_gemlocker.Dockerfile.x86_64 .
 cid=$(docker create ${ver})
 docker cp $cid:/app/highway/Gemfile.lock docker/Gemfile.lock.new
 docker rm $cid
+mv docker/Gemfile.lock.new docker/Gemfile.lock
 
 
 

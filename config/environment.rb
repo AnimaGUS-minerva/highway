@@ -18,7 +18,7 @@ $TGZ_FILE_LOCATION    ||= Rails.root.join("tmp")
 $TURRIS_ROOT_LOCATION ||= Rails.root.join("turris_root")
 
 # version one, as Internet Draft has sailed, almost to RFC.
-$VERSION = "1.1.0"
+$VERSION = "1.2.0"
 
 # gets overridden by config/initializers/revision.rb by capistrano
 $REVISION ||= "devel"

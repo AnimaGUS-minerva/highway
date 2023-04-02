@@ -49,7 +49,7 @@ gem "netaddr", ">= 2.0.4"
 gem "actionview", ">= 5.2.7.1"
 gem "yard", ">= 0.9.20"
 gem "websocket-extensions", ">= 0.1.5"
-gem "rack", ">= 2.2.3.1"
+gem "rack", ">= 2.2.6.4"
 gem "loofah", ">= 2.19.1"
 gem "actionpack", ">= 5.2.6.2"
 gem "activerecord", ">= 5.2.8.1"
@@ -59,6 +59,7 @@ gem "addressable", ">= 2.8.0"
 gem "nokogiri", ">= 1.13.10"
 gem "rails-html-sanitizer", ">= 1.4.4"
 gem "tzinfo", ">= 1.2.10"
+gem "globalid", ">= 1.0.1"
 
 # for LetsEncrypt
 gem 'acme-client'

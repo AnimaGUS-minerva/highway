@@ -171,4 +171,38 @@ namespace :highway do
     fw.closefiles
   end
 
+  desc "Create self-signed EE certificate"
+  task :h0_self_signed_ee => :environment do
+
+    curve = HighwayKeys.ca.domain_curve
+    selfsignedprivkeyfile = HighwayKeys.ca.certdir.join("selfsigned_#{curve}.key")
+    outfile       = HighwayKeys.ca.certdir.join("selfsigned_#{curve}.crt")
+    dnprefix = SystemVariable.string(:dnprefix) || "/DC=ca/DC=sandelman"
+    dn = "/CN=selfsigned"
+    if ENV['NAME']
+      dn = sprintf("/CN=%s CA", ENV['NAME'])
+    end
+    dnobj = OpenSSL::X509::Name.parse dn
+
+    if !File.exist?(outfile) or ENV['RESIGN']
+
+      duration = ENV['DURATION'].try(:to_i) || (2*365*24*60*60)
+
+      puts "Signing with duration of #{duration} seconds"
+
+      # generate the privkey directly, since we want the domain privkey
+      HighwayKeys.ca.generate_domain_privkey_if_needed(selfsignedprivkeyfile, curve, dnobj)
+
+      HighwayKeys.ca.sign_certificate("EE", dnobj,
+                                      selfsignedprivkeyfile,
+                                      outfile, dnobj, duration) { |cert, ef|
+        cert.add_extension(ef.create_extension("basicConstraints","CA:FALSE",true))
+        cert.add_extension(ef.create_extension("subjectKeyIdentifier","hash",false))
+        cert.add_extension(ef.create_extension("authorityKeyIdentifier","keyid:always",false))
+      }
+      puts "self-signed EE Certificate writtten to: #{outfile}"
+    end
+  end
+
+
 end

@@ -160,9 +160,9 @@ class SystemVariable < ActiveRecord::Base
     SystemVariable.string("hostname")
   end
 
-  def self.setup_sane_invendory
+  def self.setup_sane_inventory
     # where is the inventory stored?
-    inv_dir = Pathname.new(SystemVariable.string(:inventory_dir))
+    inv_dir = Pathname.new(SystemVariable.string(:inventory_dir) || "db/devices")
     unless inv_dir
       # set a sane default
       inv_dir = Rails.root.join('db/inventory')

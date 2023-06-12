@@ -223,8 +223,8 @@ namespace :highway do
     device.gen_or_load_priv_key(tdir)
     device.activated!
     device.save!
-    device.write_csr(tdir)
-
+    file = device.write_csr(tdir)
+    puts "Writing CSR for #{serialnumber} to #{file}"
   end
 
 

@@ -629,10 +629,13 @@ class Device < ActiveRecord::Base
     csr
   end
 
+  # returns filename where CSR has been written
   def write_csr(dir = HighwayKeys.ca.devicedir)
-    File.open(dir.join("#{serial_number}.csr"), "wb") { |f|
+    file = dir.join("#{serial_number}.csr")
+    File.open(file, "wb") { |f|
       f.write build_csr.to_der
     }
+    file
   end
 
   def masa_url

@@ -646,15 +646,12 @@ class Device < ActiveRecord::Base
     "1.3.6.1.5.5.7.1.32"
   end
   def masa_extension_asn1
-    OpenSSL::ASN1::PrintableString.new(masa_extension_value)
-  end
-  def masa_extension_value
-    sprintf("ASN1:IA5STRING:%s", masa_url)
+    OpenSSL::ASN1::PrintableString.new(masa_url)
   end
   def masa_extension
     @mext ||= extension_factory.create_extension(
       masa_url_oid,
-      masa_extension_value,
+      sprintf("ASN1:IA5STRING:%s", masa_url),
       false)
   end
 

@@ -30,18 +30,7 @@ namespace :highway do
     verbose   = ENV['VERBOSE'].present?
 
     # where is the inventory stored?
-    inv_dir = Pathname.new(SystemVariable.string(:inventory_dir))
-    unless inv_dir
-      # set a sane default
-      inv_dir = Rails.root.join('db/inventory')
-      SystemVariable.setvalue(:inventory_dir, inv_dir)
-    end
-
-    # make sure the directory exists.
-    #FileUtils.mkdir_p(inv_dir)
-
-    sold_dir = Pathname.new(inv_dir).join("sold")
-    FileUtils.mkdir_p(sold_dir)
+    inv_dir = SystemVariable.setup_sane_inventory
 
     # now count how many devices exist which have no owner.
     unowned = Device.active.unowned.count
@@ -52,24 +41,8 @@ namespace :highway do
       puts "creating #{devices_needed} devices to refill inventory to #{inv_count}"
       (1..devices_needed).each { |cnt|
 
-        # need to create some new devices.... make up some new MAC addresses.
-        next_mac = SystemVariable.nextval(:current_mac)
-
-        base_mac = SystemVariable.string(:base_mac) || "00-d0-e5-f2-10-00"
-        # turn it into a number.
-        base_mac_number = base_mac.gsub(/[:-]/,'').to_i(16)
-        mac_number = next_mac + base_mac_number
-
-        mac_addr = sprintf("%02x-%02x-%02x-%02x-%02x-%02x",
-                           (mac_number >> 40) & 0xff,
-                           (mac_number >> 32) & 0xff,
-                           (mac_number >> 24) & 0xff,
-                           (mac_number >> 16) & 0xff,
-                           (mac_number >>  8) & 0xff,
-                           (mac_number) & 0xff)
-
+        newmac = Device.build_inventory_serialnumber
         puts "Creating device #{cnt} with mac #{mac_addr}"
-
         newdev = Device.create_by_number(mac_addr)
         tdir = HighwayKeys.ca.devicedir
         newdev.gen_and_store_key(tdir)

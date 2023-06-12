@@ -614,14 +614,44 @@ class Device < ActiveRecord::Base
     store_certificate(dir)
   end
 
+  # generate a CSR for sending up to a Certification Authority.
+  # this requires the private key for the device, which is not usually
+  # present outside of testing, or sometimes for Server Generated Keys (SKG)
+  def build_csr(dir = HighwayKeys.ca.devicedir)
+    csr = OpenSSL::X509::Request.new
+    csr.version = 0
+    csr.subject = OpenSSL::X509::Name.new([["serialNumber", serial_number,19]])
+    csr.public_key = public_key
+    csr.add_attribute(
+      OpenSSL::X509::Attribute.new(masa_url_oid,
+                                   OpenSSL::ASN1::Set.new([masa_extension_asn1])))
+    csr.sign gen_or_load_priv_key(dir), OpenSSL::Digest::SHA256.new
+    csr
+  end
+
+  def write_csr(dir = HighwayKeys.ca.devicedir)
+    File.open(dir.join("#{serial_number}.csr"), "wb") { |f|
+      f.write build_csr.to_der
+    }
+  end
+
   def masa_url
     SystemVariable.string(:masa_iauthority) || "unset-masa-iauthority"
   end
 
+  def masa_url_oid
+    "1.3.6.1.5.5.7.1.32"
+  end
+  def masa_extension_asn1
+    OpenSSL::ASN1::PrintableString.new(masa_extension_value)
+  end
+  def masa_extension_value
+    sprintf("ASN1:IA5STRING:%s", masa_url)
+  end
   def masa_extension
     @mext ||= extension_factory.create_extension(
-      "1.3.6.1.5.5.7.1.32",
-      sprintf("ASN1:IA5STRING:%s", masa_url),
+      masa_url_oid,
+      masa_extension_value,
       false)
   end
 
@@ -785,6 +815,26 @@ class Device < ActiveRecord::Base
     response = fcm_client.send_message(parent, message)
     #logger.info "Response: #{response}"
     return response
+  end
+
+  def self.build_inventory_serialnumber
+    # need to create some new devices.... make up some new MAC addresses.
+    next_mac = SystemVariable.nextval(:current_mac)
+
+    base_mac = SystemVariable.string(:base_mac) || "00-d0-e5-f2-10-00"
+    # turn it into a number.
+    base_mac_number = base_mac.gsub(/[:-]/,'').to_i(16)
+    mac_number = next_mac + base_mac_number
+
+    mac_addr = sprintf("%02x-%02x-%02x-%02x-%02x-%02x",
+                       (mac_number >> 40) & 0xff,
+                       (mac_number >> 32) & 0xff,
+                       (mac_number >> 24) & 0xff,
+                       (mac_number >> 16) & 0xff,
+                       (mac_number >>  8) & 0xff,
+                       (mac_number) & 0xff)
+
+    mac_addr
   end
 
 end

@@ -78,6 +78,18 @@ RSpec.describe Device, type: :model do
       expect(almec.public_key).to be_kind_of(OpenSSL::PKey::EC)
     end
 
+    it "should generate a keypair and then sign a CSR with it" do
+      almec = devices(:almec)
+
+      tmp_device_dir {
+        almec.gen_or_load_priv_key(HighwayKeys.ca.devicedir, 'prime256v1', false)
+        almec.activated!
+        almec.save!
+        almec.write_csr
+      }
+      expect(almec.dev_key).to_not be_nil
+    end
+
     it "should preserve public key in pub_key field" do
       almec = devices(:almec)
       tmp_device_dir(true) {

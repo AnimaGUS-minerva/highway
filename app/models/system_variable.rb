@@ -160,4 +160,22 @@ class SystemVariable < ActiveRecord::Base
     SystemVariable.string("hostname")
   end
 
+  def self.setup_sane_invendory
+    # where is the inventory stored?
+    inv_dir = Pathname.new(SystemVariable.string(:inventory_dir))
+    unless inv_dir
+      # set a sane default
+      inv_dir = Rails.root.join('db/inventory')
+
+      # make sure the directory exists.
+      FileUtils.mkdir_p(inv_dir)
+      sold_dir = Pathname.new(inv_dir).join("sold")
+      FileUtils.mkdir_p(sold_dir)
+
+      SystemVariable.setvalue(:inventory_dir, inv_dir)
+    end
+  end
+
+
+
 end

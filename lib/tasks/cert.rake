@@ -204,5 +204,28 @@ namespace :highway do
     end
   end
 
+  desc "Create Certificate Signing Request with appropriate MASA OID URL"
+  task :h6_device_csr => :environment do
+
+    serialnumber = ENV['SN']
+    if serialnumber.blank?
+      serialnumber = Device.build_inventory_serialnumber
+    end
+
+    inv_dir = SystemVariable.setup_sane_inventory
+    tdir = HighwayKeys.ca.devicedir
+
+    device = Device.find_obsolete_by_eui64(serialnumber)
+    unless device
+      device = Device.create_by_number(serialnumber)
+    end
+    device.serial_number = serialnumber
+    device.gen_or_load_priv_key(tdir)
+    device.activated!
+    device.save!
+    device.write_csr(tdir)
+
+  end
+
 
 end

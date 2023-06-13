@@ -174,6 +174,7 @@ class SystemVariable < ActiveRecord::Base
 
       SystemVariable.setvalue(:inventory_dir, inv_dir)
     end
+    inv_dir
   end
 
 

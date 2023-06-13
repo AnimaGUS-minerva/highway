@@ -42,8 +42,8 @@ namespace :highway do
       (1..devices_needed).each { |cnt|
 
         newmac = Device.build_inventory_serialnumber
-        puts "Creating device #{cnt} with mac #{mac_addr}"
-        newdev = Device.create_by_number(mac_addr)
+        puts "Creating device #{cnt} with mac #{newmac}"
+        newdev = Device.create_by_number(newmac)
         tdir = HighwayKeys.ca.devicedir
         newdev.gen_and_store_key(tdir)
 

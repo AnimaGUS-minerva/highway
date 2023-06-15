@@ -1,3 +1,0 @@
-These are the files for shgmudhighway33, they are used by test cases that
-work on not bothering LetsEncrypt when there is already a valid certificate
-for a given DN and Public Key.

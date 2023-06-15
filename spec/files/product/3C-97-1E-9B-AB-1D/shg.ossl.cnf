@@ -1,6 +1,0 @@
-[ req ]
-distinguished_name=shg
-[shg]
-[distinguished_name]
-[SAN]
-subjectAltName=DNS:n9e7354.r.dasblinkenled.org,DNS:mud.n9e7354.r.dasblinkenled.org

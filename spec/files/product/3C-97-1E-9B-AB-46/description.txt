@@ -1,5 +1,0 @@
-These are the files for device_F46_expired, they are used by test cases that
-work on not bothering LetsEncrypt when there is already a valid certificate
-for a given DN and Public Key.  These contain a CSR and keypair, but the
-certificate that has been placed into the fixture has expired.
-

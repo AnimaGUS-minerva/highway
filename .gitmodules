@@ -1,3 +1,6 @@
 [submodule "etc"]
 	path = etc
 	url = https://github.com/mcr/can-o-pg.git
+[submodule "spec/files/product"]
+	path = spec/files/product
+	url = git@github.com:AnimaGUS-minerva/rfc8366-examples.git

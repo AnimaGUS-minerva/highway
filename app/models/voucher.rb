@@ -22,7 +22,7 @@ class Voucher < ActiveRecord::Base
     begin
       DeviceNotifierMailer.voucher_issued_email(self, vr).deliver
     rescue Exception => e
-      DeviceNotifierMailer.failed_to_notify-email(e).deliver
+      DeviceNotifierMailer.failed_to_notify_email(e).deliver
     end
   end
 

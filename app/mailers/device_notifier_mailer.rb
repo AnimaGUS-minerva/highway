@@ -7,6 +7,7 @@ class DeviceNotifierMailer < ApplicationMailer
     @resold = @device.owners.count > 1
     @originating_ip = voucher_request.try(:originating_ip) || "unknown"
     type = voucher.voucher_type
+    logger.info("Sending email: "+ ENV['USER'] + " subject new " + type + @device.name)
     mail(to: ENV['USER'], subject: "New #{type} voucher issued for #{@device.name}")
   end
 
@@ -31,7 +32,7 @@ class DeviceNotifierMailer < ApplicationMailer
       STDERR.puts "Failed to send notify"
       STDERR.puts trace.try(:to_s)
     else
-      @trace = trace.try(:to_s)
+      @trace = Base64.encode64(trace)
       mail(to: 'webmaster', subject: "Failed to send notify email")
     end
   end

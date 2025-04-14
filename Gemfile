@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', "~> 6.0.0"
+gem 'rails', "~> 6.1.0"
 gem 'cow_proxy', :git => 'https://github.com/mcr/cow_proxy.git'
 
 gem 'psych', '~> 3.3'
 
 # Use postgresql as the database for Active Record
 gem 'sqlite3', "~> 1.4.0"
-gem 'pg', '~> 0.21'
+gem 'pg'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -36,7 +36,7 @@ gem "sentry-rails"
 # so it would be nice to not complicate life with need for openssl 1.1.1 w/patches
 # maintaining multiple branches is also a pain.
 #gem 'openssl', :git => 'https://github.com/CIRALabs/ruby-openssl.git', :branch => 'cms-added'
-gem 'openssl', :path => '../minerva/ruby-openssl'
+gem 'openssl', :path => '../minerva/ruby3-openssl'
 
 # for static files
 gem 'rails-static-router'
@@ -60,6 +60,7 @@ gem "nokogiri", ">= 1.13.10"
 gem "rails-html-sanitizer", ">= 1.4.4"
 gem "tzinfo", ">= 1.2.10"
 gem "globalid", ">= 1.0.1"
+gem 'concurrent-ruby', '>= 1.3.4'
 
 # for LetsEncrypt
 gem 'acme-client'

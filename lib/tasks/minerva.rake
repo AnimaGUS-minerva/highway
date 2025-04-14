@@ -68,7 +68,7 @@ namespace :highway do
     puts "Found #{Device.owned.count} devices owned" if verbose
     Device.owned.each { |dev|
       zipfile = inv_dir.join(dev.zipfilename)
-      if File.exists?(zipfile)
+      if File.exist?(zipfile)
         sold_zipfile = sold_dir.join(dev.zipfilename)
 
         puts "Marking #{zipfile} as sold"

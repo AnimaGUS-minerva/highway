@@ -9,7 +9,7 @@ class EstController < ApiController
 
     #byebug
     @clientcert = nil
-    @replytype  = request.content_type
+    @replytype  = request.media_type
     if @replytype.blank?
       @replytype = "application/voucher-cms+json"
     end
@@ -89,7 +89,7 @@ class EstController < ApiController
         end
       else
         vr = capture_and_log_bad_request(code: 406,
-                                 msg: "unknown voucher-request content-type: #{request.content_type}")
+                                 msg: "unknown voucher-request content-type: #{request.media_type}")
         DeviceNotifierMailer.invalid_voucher_request(request, vr).deliver
         return
       end

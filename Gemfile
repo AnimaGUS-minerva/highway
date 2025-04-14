@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', "~> 6.1.0"
+gem 'rails', "~> 7.1.0"
 gem 'cow_proxy', :git => 'https://github.com/mcr/cow_proxy.git'
+gem 'zeitwerk'
 
 gem 'psych', '~> 3.3'
 

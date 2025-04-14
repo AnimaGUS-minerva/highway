@@ -83,7 +83,7 @@ end
 
 def mk_empty_dir
   newdir = Rails.root.join("tmp").join("devices")
-  FileUtils.remove_entry_secure(newdir) if Dir.exists?(newdir)
+  FileUtils.remove_entry_secure(newdir) if Dir.exist?(newdir)
   FileUtils.mkdir_p(newdir)
   newdir
 end

@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.17.1"
+lock "3.19.2"
 
 set :application, "highway"
 #set :repo_url, "git+ssh://code.credil.org/git/pandora/highway"
@@ -12,7 +12,7 @@ ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 #set :deploy_to, "/data/highway/highway"
 
 set :rvm_type, :system
-set :rvm_ruby_version, '2.6.6'
+set :rvm_ruby_version, '3.3.8'
 set :rvm_roles,    [:app]
 set :bundle_roles, [:app]
 

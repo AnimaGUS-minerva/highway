@@ -1,6 +1,13 @@
 # Load the Rails application.
 require File.expand_path('../application', __FILE__)
 
+# these are loaded directly, because it seems that autoloading does not work
+# when the symbols are in environment/* and that's where we want to set the keystores.
+# those files are called the initialize! below.
+require 'highway_keys'
+require 'masa_keys'
+require 'acme_keys'
+
 # Initialize the Rails application.
 Rails.application.initialize!
 

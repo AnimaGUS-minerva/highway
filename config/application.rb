@@ -26,6 +26,7 @@ module Highway
     # config.time_zone = 'Central Time (US & Canada)'
 
     config.autoload_lib(ignore: %w(assets tasks))
+    config.autoload_once_paths << "#{root}/lib"
 
     config.active_support.to_time_preserves_timezone = :zone
 

@@ -7,6 +7,7 @@ require File.expand_path('../application', __FILE__)
 require 'highway_keys'
 require 'masa_keys'
 require 'acme_keys'
+require 'idevid_keys'
 
 # Initialize the Rails application.
 Rails.application.initialize!

@@ -51,7 +51,23 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_options = {from: 'mcr+minerva@sandelman.ca'}
 
+  config.after_initialize do
+    # in development mode, use the canned certificates from spec/files/cert,
+    # which are also used for test.
+    unless ENV['CERTDIR']
+      HighwayKeys.ca.certdir = Rails.root.join('spec','files','cert')
+      MasaKeys.ca.certdir = Rails.root.join('spec','files','cert')
+      AcmeKeys.acme.certdir=Rails.root.join('spec','files','cert')
+    end
+
+    AcmeKeys.acme.server="https://acme-staging-v02.api.letsencrypt.org/directory"
+    $FCM_SERVICE_CREDENTIALS = Rails.root.join("spec", "files", "development-service-info.json")
+    $INTERNAL_CA_SHG_DEVICE=false
+    $LETENCRYPT_CA_SHG_DEVICE=true
+    # fake keys
+    ENV['GOOGLE_APPLICATION_CREDENTIALS'] = Rails.root.join("spec", "files", "development-service-info.json").to_s
+
+  end
+
 end
 
-# fake keys
-ENV['GOOGLE_APPLICATION_CREDENTIALS'] = Rails.root.join("spec", "files", "development-service-info.json").to_s

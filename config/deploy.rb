@@ -30,7 +30,7 @@ set :bundle_roles, [:app]
 set :assets_roles, []
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", "config/secrets.yml", "config/environments/production.rb", "config/acme.yml"
+append :linked_files, "config/database.yml", "config/master.key", "config/credentials.yml.enc", "config/environments/production.rb", "config/acme.yml"
 append :linked_files, "config/initializers/sentry.rb"
 
 # Default value for linked_dirs is []

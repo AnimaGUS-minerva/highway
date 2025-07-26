@@ -422,9 +422,7 @@ class Device < ActiveRecord::Base
   def set_public_key(key)
     # stupid issue with API into EC::Point
     if key.kind_of?(OpenSSL::PKey::EC::Point)
-      pub = OpenSSL::PKey::EC.new(key.group)
-      pub.public_key = key
-      key = pub
+      key = OpenSSL::PKey::EC.new(key)
     end
     self.pub_key = Base64::strict_encode64(key.to_der)
   end

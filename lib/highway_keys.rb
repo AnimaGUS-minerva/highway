@@ -84,11 +84,10 @@ class HighwayKeys
   def gen_client_pkey
     case client_algo
     when 'ecdsa'
-      key = OpenSSL::PKey::EC.new(client_curve)
-      key.generate_key
+      key = OpenSSL::PKey.generate_key('EC', { "ec_paramgen_curve" => client_curve })
       key
     when 'rsa'
-      key = OpenSSL::PKey::RSA.new(client_curve.to_i)  # really, strength in bits
+      key = OpenSSL::PKey.generate_key('RSA', { "rsa_keygen_bits" => client_curve.to_i })
       key
     end
   end

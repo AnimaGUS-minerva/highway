@@ -36,7 +36,7 @@ GIT
     cow_proxy (0.2.1)
 
 PATH
-  remote: ../minerva/ruby3-openssl
+  remote: ../minerva/ruby3-openssl3
   specs:
     openssl (3.3.0)
 

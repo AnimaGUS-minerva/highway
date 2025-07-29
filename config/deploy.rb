@@ -35,6 +35,9 @@ append :linked_files, "config/initializers/sentry.rb"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "db/cert", "db/devices", "db/inventory", "log", "tmp", "turris_root"
+if fetch(:turris_root_wanted)
+  append :linked_dirs, "turris_root"
+end
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }

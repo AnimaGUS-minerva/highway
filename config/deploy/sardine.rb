@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-set :rvm_custom_path, '/usr/share/rvm'
+set :rvm_custom_path, '/usr/local/rvm'
 set :rvm_type, :system
 set :rvm_ruby_version, '3.3.8'
 set :deploy_to, "/app/highway"

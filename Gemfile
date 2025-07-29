@@ -36,7 +36,7 @@ gem "sentry-rails"
 # while we need the CMS code, and the not DTLS code,
 # so it would be nice to not complicate life with need for openssl 1.1.1 w/patches
 # maintaining multiple branches is also a pain.
-gem 'openssl', :git => 'https://github.com:mcr/ruby-openssl.git', :branch => 'mcr-202507-hacks'
+gem 'openssl', :git => 'https://github.com/mcr/ruby-openssl.git', :branch => 'mcr-202507-hacks'
 #gem 'openssl', :path => '../minerva/ruby3-openssl3'
 
 # for static files

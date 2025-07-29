@@ -35,8 +35,10 @@ GIT
   specs:
     cow_proxy (0.2.1)
 
-PATH
-  remote: ../minerva/ruby3-openssl3
+GIT
+  remote: https://github.com/mcr/ruby-openssl.git
+  revision: 9260df3d7be9d16b9b0f2d4e9212ae0fb3207fd7
+  branch: mcr-202507-hacks
   specs:
     openssl (3.3.0)
 

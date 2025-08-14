@@ -54,6 +54,7 @@ gem "rack", ">= 2.2.6.4"
 gem "loofah", ">= 2.19.1"
 gem "actionpack", ">= 5.2.6.2"
 gem "activerecord", ">= 5.2.8.1"
+gem "activestorage", ">= 8.0.2.1"
 gem "json", ">= 2.3.0"
 gem "rexml", ">= 3.2.5"
 gem "addressable", ">= 2.8.0"
@@ -62,6 +63,7 @@ gem "rails-html-sanitizer", ">= 1.4.4"
 gem "tzinfo", ">= 1.2.10"
 gem "globalid", ">= 1.0.1"
 gem 'concurrent-ruby', '>= 1.3.4'
+gem 'thor', ">= 1.4.0"
 
 # for LetsEncrypt
 gem 'acme-client'

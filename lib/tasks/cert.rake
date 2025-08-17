@@ -2,11 +2,16 @@
 
 namespace :highway do
 
+  def privkeyhandle
+    curve = HighwayKeys.ca.domain_curve
+    vendorprivkeyfile = HighwayKeys.ca.certdir.join("vendor_#{curve}.key")
+  end
+
   desc "Create initial self-signed CA certificate, or resign existing one"
   task :h1_bootstrap_ca => :environment do
 
     curve = HighwayKeys.ca.domain_curve
-    vendorprivkeyfile = HighwayKeys.ca.certdir.join("vendor_#{curve}.key")
+    vendorprivkeyfile = privkeyhandle
     outfile       = HighwayKeys.ca.certdir.join("vendor_#{curve}.crt")
     dnprefix = SystemVariable.string(:dnprefix) || "/DC=ca/DC=sandelman"
     dn = sprintf("%s/CN=%s CA", dnprefix, SystemVariable.string(:hostname))

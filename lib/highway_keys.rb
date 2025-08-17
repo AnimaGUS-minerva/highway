@@ -156,7 +156,9 @@ class HighwayKeys
   end
 
   def generate_privkey_if_needed(privkeyfile, curve = nil, certname)
-    if File.exist?(privkeyfile)
+    if privkeyfile =~ /handle:/
+      key = OpenSSL::PKey
+    elsif File.exist?(privkeyfile)
       puts "#{certname} using existing key at: #{privkeyfile}"
       OpenSSL::PKey.read(File.open(privkeyfile))
     else

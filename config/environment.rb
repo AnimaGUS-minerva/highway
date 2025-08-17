@@ -15,8 +15,11 @@ Rails.application.initialize!
 $MASAUrl = 'https://highway.sandelman.ca/'
 $ADMINTERFACE = false
 
+# Private keys are stored in files by default, particularly for testing.
+$KEYS_IN_TPM = false
+
 # SHG-provisioning controls... replace with appropriate yaml file?
-$TOFU_DEVICE_REGISTER = true
+$TOFU_DEVICE_REGISTER = false
 
 # set these in environments/
 #$INTERNAL_CA_SHG_DEVICE=false

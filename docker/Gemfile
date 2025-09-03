@@ -47,10 +47,12 @@ gem "activerecord", ">= 5.2.8.1"
 gem "json", ">= 2.3.0"
 gem "rexml", ">= 3.2.5"
 gem "addressable", ">= 2.8.0"
-gem "nokogiri", ">= 1.13.10"
+gem "nokogiri", ">= 1.18.9"
 gem "rails-html-sanitizer", ">= 1.4.4"
 gem "tzinfo", ">= 1.2.10"
 gem "globalid", ">= 1.0.1"
+gem 'thor', ">= 1.4.0"
+gem 'activestorage', ">= 8.0.2.1"
 
 # use this to get full decoding of HTTP Accept: headers, to be able to
 # split off smime-type=voucher in pkcs7-mime, and other parameters

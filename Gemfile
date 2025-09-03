@@ -64,6 +64,7 @@ gem "tzinfo", ">= 1.2.10"
 gem "globalid", ">= 1.0.1"
 gem 'concurrent-ruby', '>= 1.3.4'
 gem 'thor', ">= 1.4.0"
+gem 'activestorage', ">= 8.0.2.1"
 
 # for LetsEncrypt
 gem 'acme-client'

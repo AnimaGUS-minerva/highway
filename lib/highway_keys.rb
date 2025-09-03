@@ -78,7 +78,16 @@ class HighwayKeys
   end
 
   def root_priv_key_file
-    @vendorprivkey ||= File.join(certdir, "vendor_#{domain_curve}.key")
+    @vendorprivkey ||= calc_root_priv_key_file
+  end
+
+  def calc_root_priv_key_file
+    handle= SystemVariable.findwithdefault('domain_handle','')
+    if handle.blank?
+      File.join(certdir, "vendor_#{domain_curve}.key")
+    else
+      handle
+    end
   end
 
   def gen_client_pkey
@@ -95,12 +104,11 @@ class HighwayKeys
   def gen_domain_pkey
     case algo
     when 'ecdsa'
-      key = OpenSSL::PKey::EC.new(domain_curve)
-      key.generate_key
+      key = OpenSSL::PKey.generate_key('EC', { "ec_paramgen_curve" => domain_curve })
       key
     when 'rsa'
       # really, strength in bits
-      key = OpenSSL::PKey::RSA.new(domain_curve.to_i)
+      key = OpenSSL::PKey.generate_key('RSA', { "rsa_keygen_bits" => domain_curve.to_i })
       key
     end
   end
@@ -119,7 +127,7 @@ class HighwayKeys
     # note, root CA's are "self-signed", so pass dnobj.
     issuer ||= cacert.subject
 
-    ncert  = OpenSSL::X509::Certificate.new
+    ncert  = OpenSSL::X509::Certificate.new(:propq => 'provider=tpm2')
     # cf. RFC 5280 - to make it a "v3" certificate
     ncert.version = 2
     ncert.serial  = SystemVariable.randomseq(:serialnumber)
@@ -140,11 +148,14 @@ class HighwayKeys
     if efblock
       efblock.call(ncert, ef)
     end
+    byebug
     ncert.sign(ca_signing_key, OpenSSL::Digest::SHA256.new)
   end
 
   def generate_domain_privkey_if_needed(privkeyfile, curve, certname)
-    if File.exist?(privkeyfile)
+    if privkeyfile =~ /handle:/
+      key = OpenSSL::PKey.load_from_handle(privkeyfile)
+    elsif File.exist?(privkeyfile)
       puts "#{certname} using existing key at: #{privkeyfile}"
       OpenSSL::PKey.read(File.open(privkeyfile))
     else
@@ -157,11 +168,16 @@ class HighwayKeys
 
   def generate_privkey_if_needed(privkeyfile, curve = nil, certname)
     if privkeyfile =~ /handle:/
-      key = OpenSSL::PKey
+      key = OpenSSL::PKey.load_from_handle(privkeyfile)
     elsif File.exist?(privkeyfile)
       puts "#{certname} using existing key at: #{privkeyfile}"
       OpenSSL::PKey.read(File.open(privkeyfile))
     else
+      # can not generate keys by TPM yet, have to use tpm2_createak
+      # such as:   tpm2_createak --tcti=swtpm:port=4523 -C 0x81010001  # parent
+      #             -G rsa -g sha256 -s rsassa -c ak_rsa.ctxi
+      #             -u ak_rsa.pub -n ak_rsa.name
+      # and then:  tpm2_evictcontrol --tcti=swtpm:port=4523 -C o -c ak_rsa.ctx 0x81010003
       # the CA's public/private key - 3*1024 + 8
       key = gen_client_pkey
       File.open(privkeyfile, "w", 0600) do |f| f.write key.to_pem end
@@ -181,10 +197,29 @@ class HighwayKeys
     ncert
   end
 
+  def sign_ca_key(vendorprivkeyfile, outfile, curve, dnobj, duration = (2*365*24*60*60))
+    # generate the privkey directly, since we want the domain privkey
+    generate_domain_privkey_if_needed(vendorprivkeyfile, curve, dnobj)
+
+    sign_certificate("CA", dnobj,
+                     vendorprivkeyfile,
+                     outfile, dnobj, duration) { |cert, ef|
+      cert.add_extension(ef.create_extension("basicConstraints","CA:TRUE",true))
+      cert.add_extension(ef.create_extension("keyUsage","keyCertSign, cRLSign", true))
+      cert.add_extension(ef.create_extension("subjectKeyIdentifier","hash",false))
+      cert.add_extension(ef.create_extension("authorityKeyIdentifier","keyid:always",false))
+    }
+    outfile
+  end
+
   protected
   def load_root_priv_key
-    File.open(root_priv_key_file) do |f|
-      OpenSSL::PKey.read(f)
+    if root_priv_key_file =~ /handle:/
+      OpenSSL::PKey.load_from_handle(root_priv_key_file)
+    else
+      File.open(root_priv_key_file) do |f|
+        OpenSSL::PKey.read(f)
+      end
     end
   end
 

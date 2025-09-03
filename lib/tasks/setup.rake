@@ -77,6 +77,9 @@ namespace :highway do
     prompt_variable_value("Setup inventory base mac address",
                           :base_mac)
 
+    prompt_variable_value("TPM handle for CA private key: ",
+                          :domain_handle)
+
     prompt_variable_value("Algorithm to use for Certification Authority ",
                           :domain_algo)
 

@@ -37,8 +37,8 @@ GIT
 
 GIT
   remote: https://github.com/mcr/ruby-openssl.git
-  revision: 9260df3d7be9d16b9b0f2d4e9212ae0fb3207fd7
-  branch: mcr-202507-hacks
+  revision: 88e54ef5336e116de68f24585a2a9f1b3462f3ad
+  branch: mcr-202509-hacks
   specs:
     openssl (3.3.0)
 
@@ -178,15 +178,15 @@ GEM
     ffi (1.17.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-core (0.18.0)
-      addressable (~> 2.5, >= 2.5.1)
-      googleauth (~> 1.9)
-      httpclient (>= 2.8.3, < 3.a)
-      mini_mime (~> 1.0)
-      mutex_m
+    google-apis-core (1.0.1)
+      addressable (~> 2.8, >= 2.8.7)
+      faraday (~> 2.13)
+      faraday-follow_redirects (~> 0.3)
+      googleauth (~> 1.14)
+      mini_mime (~> 1.1)
       representable (~> 3.0)
-      retriable (>= 2.0, < 4.a)
-    google-apis-fcm_v1 (0.33.0)
+      retriable (~> 3.1)
+    google-apis-fcm_v1 (0.34.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-cloud-env (2.3.1)
       base64 (~> 0.2)

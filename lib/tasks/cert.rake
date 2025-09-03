@@ -3,7 +3,6 @@
 namespace :highway do
 
   def privkeyhandle
-    curve = HighwayKeys.ca.domain_curve
     vendorprivkeyfile = HighwayKeys.ca.certdir.join("vendor_#{curve}.key")
   end
 
@@ -11,7 +10,7 @@ namespace :highway do
   task :h1_bootstrap_ca => :environment do
 
     curve = HighwayKeys.ca.domain_curve
-    vendorprivkeyfile = privkeyhandle
+    vendorprivkeyfile = Highway.ca.root_priv_key_file
     outfile       = HighwayKeys.ca.certdir.join("vendor_#{curve}.crt")
     dnprefix = SystemVariable.string(:dnprefix) || "/DC=ca/DC=sandelman"
     dn = sprintf("%s/CN=%s CA", dnprefix, SystemVariable.string(:hostname))
@@ -24,17 +23,7 @@ namespace :highway do
 
       puts "Signing with duration of #{duration} seconds"
 
-      # generate the privkey directly, since we want the domain privkey
-      HighwayKeys.ca.generate_domain_privkey_if_needed(vendorprivkeyfile, curve, dnobj)
-
-      HighwayKeys.ca.sign_certificate("CA", dnobj,
-                                      vendorprivkeyfile,
-                                      outfile, dnobj, duration) { |cert, ef|
-        cert.add_extension(ef.create_extension("basicConstraints","CA:TRUE",true))
-        cert.add_extension(ef.create_extension("keyUsage","keyCertSign, cRLSign", true))
-        cert.add_extension(ef.create_extension("subjectKeyIdentifier","hash",false))
-        cert.add_extension(ef.create_extension("authorityKeyIdentifier","keyid:always",false))
-      }
+      outfile = HighwayKeys.ca.sign_ca_key(vendorprivkeyfile, curve, dnobj, duration)
       puts "CA Certificate writtten to: #{outfile}"
     end
   end

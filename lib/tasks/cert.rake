@@ -91,6 +91,28 @@ namespace :highway do
     end
   end
 
+  desc "Create a certificate signing request for the MASA web interface (EST) to answer requests"
+  task :h4_masa_server_csr => :environment do
+
+    curve   = HighwayKeys.ca.client_curve
+    certdir = HighwayKeys.ca.certdir
+    serverprivkeyfile = certdir.join("server_#{curve}.key")
+    csrfile=certdir.join("server_#{curve}.crt")
+
+    dnprefix = SystemVariable.string(:dnprefix) || "/DC=ca/DC=sandelman"
+    dn = sprintf("%s/CN=%s", dnprefix, SystemVariable.string(:hostname))
+    dnobj = OpenSSL::X509::Name.parse dn
+
+    if !File.exist?(outfile) or ENV['RESIGN']
+      mud_cert = HighwayKeys.ca.sign_certificate("SERVER", nil,
+                                                 serverprivkeyfile,
+                                                 outfile, dnobj) { |cert,ef|
+        cert.add_extension(ef.create_extension("basicConstraints","CA:FALSE",true))
+      }
+      puts "MASA SERVER certificate writtten to: #{outfile}"
+    end
+  end
+
   desc "Create a suborbinate CA for signing SmartPledge IDevID devices"
   task :h5_idevid_ca => :environment do
 

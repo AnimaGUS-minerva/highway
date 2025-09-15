@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   post '/.well-known/brski/requestauditlog', to: 'est#requestauditlog'
   post '/.well-known/brski/enrollstatus', to: 'smarkaklink#enrollstatus'
 
+  # These are part of RFC7030
+  post '/.well-known/est/simpleenroll',   to: 'est#simpleenroll'
+
   # EST processing of smarkaklink URLs
   post '/.well-known/brski/smarkaklink',  to: 'smarkaklink#enroll'
   post '/smarkaklink/enroll',           to: 'smarkaklink#enroll'

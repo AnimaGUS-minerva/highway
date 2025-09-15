@@ -11,6 +11,10 @@ RSpec.describe EstController, type: :routing do
       expect(:post => "/smarkaklink/enroll").to route_to("smarkaklink#enroll")
     end
 
+    it "routes to #simpleenroll" do
+      expect(:post => "/.well-known/est/simpleenroll").to route_to("est#simpleenroll")
+    end
+
     it "routes to #shgprovision" do
       expect(:post => "/shg-provision").to route_to("smarkaklink#provision")
     end

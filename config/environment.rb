@@ -21,9 +21,10 @@ $KEYS_IN_TPM = false
 # SHG-provisioning controls... replace with appropriate yaml file?
 $TOFU_DEVICE_REGISTER = false
 
-# set these in environments/
+# defaults, set these in environments/
 #$INTERNAL_CA_SHG_DEVICE=false
 #$LETENCRYPT_CA_SHG_DEVICE=true
+$EnrollmentSupported = false
 
 $TGZ_FILE_LOCATION    ||= Rails.root.join("tmp")
 $TURRIS_ROOT_LOCATION ||= Rails.root.join("turris_root")

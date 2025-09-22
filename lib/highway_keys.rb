@@ -148,7 +148,6 @@ class HighwayKeys
     if efblock
       efblock.call(ncert, ef)
     end
-    byebug
     ncert.sign(ca_signing_key, OpenSSL::Digest::SHA256.new)
   end
 
@@ -167,7 +166,7 @@ class HighwayKeys
   end
 
   def generate_privkey_if_needed(privkeyfile, curve = nil, certname)
-    if privkeyfile =~ /handle:/
+    if privkeyfile.to_s =~ /handle:/
       key = OpenSSL::PKey.load_from_handle(privkeyfile)
     elsif File.exist?(privkeyfile)
       puts "#{certname} using existing key at: #{privkeyfile}"

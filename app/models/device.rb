@@ -16,8 +16,8 @@ class Device < ActiveRecord::Base
   class CSRSerialNumberDuplicated < Exception; end
   class CSRFailed < Exception; end
 
-  before_save :fill_in_pub_key
   before_save :serial_number_from_eui64
+  before_save :validate_hash_of_keys
 
   scope :active,  -> { where.not(obsolete: true) }
   scope :obsolete,-> { where(obsolete: true) }
@@ -26,6 +26,12 @@ class Device < ActiveRecord::Base
 
   def canonicalize_eui64(str)
     self.class.canonicalize_eui64(str)
+  end
+
+  def self.hash_of_key(key)
+    pubkey = key.public_key
+    return '' unless pubkey
+    hash = Digest::SHA2.hexdigest(pubkey.to_der)
   end
 
   def self.canonicalize_eui64(str)
@@ -154,6 +160,24 @@ class Device < ActiveRecord::Base
     # canonicalize into certificate, to get public key, and look it up
     find_by_PKey(OpenSSL::X509::Certificate.new(certpem).try(:public_key))
   end
+
+  def self.find_by_pubkey_hash(hash)
+    where(idevid_hash: hash).take
+  end
+
+  # this looks for a device entry based upon the presented public key,
+  # and if it does not exist, creates it.  Then, signs a new IDevID.
+  def self.create_device_from_csr(csr)
+    csrobj = OpenSSL::X509::Request.new(csr)
+
+    pubkey = csrobj.public_key
+    hash = Digest::SHA2.hexdigest(pubkey.to_der)
+    dev  = find_by_pubkey_hash(hash) || create(idevid_hash: hash)
+    dev.save!
+    dev.create_idevid_from_csr(csr)
+    dev
+  end
+
 
   # make sure extra_attrs is initialized as a hash.
   def extra_attrs
@@ -334,6 +358,25 @@ class Device < ActiveRecord::Base
     save!
   end
 
+  # this routine is used to sign a device CSR to create an IDevID
+  # it used for online enrollment via simpleenroll
+  # The MASA URL is included.
+  def create_idevid_from_csr(csr)
+    sign_setup_certificate
+
+    csrobj = OpenSSL::X509::Request.new(csr)
+    csrobj = self.badfunction
+    #@idevid.subject = OpenSSL::X509::Name.new(csr.??)
+
+    # this depends upon a patch to ruby-openssl, at:
+    #  https://github.com/mcr/openssl/commit/a59c5e049b8b4b7313c6532692fa67ba84d1707c
+    @idevid.add_extension(masa_extension)
+    @idevid.sign(HighwayKeys.ca.rootprivkey, OpenSSL::Digest::SHA256.new)
+
+    self.certificate     = @idevid
+    save!
+  end
+
   def tgz_name
     @tgz ||= $TGZ_FILE_LOCATION.join('shg', "dev_#{self.id}")
   end
@@ -438,13 +481,6 @@ class Device < ActiveRecord::Base
   def obsoleted!
     self.obsolete = true
     save!
-  end
-
-  def fill_in_pub_key
-    if idevid_cert and !pub_key
-      self.pub_key = Base64::strict_encode64(certificate.public_key.to_der)
-    end
-    true
   end
 
   def serial_number_from_eui64
@@ -833,6 +869,25 @@ class Device < ActiveRecord::Base
                        (mac_number) & 0xff)
 
     mac_addr
+  end
+
+  def calculate_idevid_hash
+    if idevid_cert
+      idev_cert = OpenSSL::X509::Certificate.new(idevid_cert)
+      self.idevid_hash = self.class.hash_of_key(idev_cert)
+    else
+      self.idevid_hash = nil
+    end
+  end
+
+  def validate_hash_of_keys
+    if idevid_cert and idevid_hash.blank?
+      calculate_idevid_hash
+    end
+    if idevid_cert and pub_key.blank?
+      self.pub_key = Base64::strict_encode64(certificate.public_key.to_der)
+    end
+    true
   end
 
 end

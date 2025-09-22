@@ -277,10 +277,8 @@ shgmudhighway33rsa:
 shgmudhighway32:
   id: 32
   eui64: 3c-97-0e-9b-dc-98
-  pub_key: Need to generate
   serial_number: 3c-97-0e-9b-dc-98
   obsolete: false
-  idevid_cert: need to generate
   ula: 'fd3c:e6b3:51e2::'
   extra_attrs:
     register_ip: "::3"

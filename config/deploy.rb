@@ -66,3 +66,22 @@ namespace :deploy do
 end
 
 before 'bundler:install', 'deploy:config_bundler'
+
+namespace :devops do
+   desc "Copy files to $HOME/bin"
+   task :copy do
+     on roles(:all) do |host|
+       execute "mkdir -p bin"
+       Dir.each_child("bin-tools").each do |f|
+         puts "File", f
+         byebug
+         upload!(Pathname.getwd + 'bin-tools' + f ,
+                 Pathname.new(fetch(:deploy_to)) + 'bin' + f,
+                 :via => :sftp) { |event,options|
+           # do nothing
+           print event
+         }
+         end
+      end
+   end
+end

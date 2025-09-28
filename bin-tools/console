@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd $HOME/highway/current
+export RAILS_ENV=production
+/usr/local/rvm/bin/rvm 3.3.8 do bundle exec rails console
+

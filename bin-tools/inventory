@@ -1,0 +1,4 @@
+#!/bin/sh
+
+$HOME/bin/dorake highway:inventory CERTDIR=/honeydukes/app/ca | grep -v 'Running MCR'
+

@@ -1,5 +1,6 @@
 require 'googleauth'
 require 'google/apis/fcm_v1'
+require 'securerandom'
 
 class Device < ActiveRecord::Base
   include FixtureSave
@@ -358,15 +359,30 @@ class Device < ActiveRecord::Base
     save!
   end
 
-  # this routine is used to sign a device CSR to create an IDevID
-  # it used for online enrollment via simpleenroll
-  # The MASA URL is included.
-  def create_idevid_from_csr(csr)
-    sign_setup_certificate
+  def eui64_or_uuid
+    unless self.eui64.blank?
+      self.eui64.sanitized_eui64
+    else
+      self.eui64 = SecureRandom.uuid
+      save!
+      self.eui64
+    end
+  end
 
+  # this routine is used to sign a device CSR to create an IDevID
+  # it used for manufacturing of devices, via simpleenroll
+  # The MASA URL extension is included when producing the IDevID.
+  # Authorization to do this is handled at the controller level.
+  def create_idevid_from_csr(csr)
     csrobj = OpenSSL::X509::Request.new(csr)
-    csrobj = self.badfunction
-    #@idevid.subject = OpenSSL::X509::Name.new(csr.??)
+    raise CSRFailed unless csrobj
+
+    self.set_public_key(csrobj.public_key)
+
+    # the SAN will be created from the EUI64, and if that is NIL/Blank,
+    # then a random uuid is generated.
+    sign_setup_certificate
+    @idevid.subject = OpenSSL::X509::Name.new([["serialNumber", eui64_or_uuid,19]])
 
     # this depends upon a patch to ruby-openssl, at:
     #  https://github.com/mcr/openssl/commit/a59c5e049b8b4b7313c6532692fa67ba84d1707c
@@ -497,12 +513,16 @@ class Device < ActiveRecord::Base
   end
 
   def sanitized_eui64
-    @sanitized_eui64 ||= eui64.upcase.gsub(/[^0-9A-F-]/,"")
+    @sanitized_eui64 ||= unless eui64.blank?
+                           eui64.upcase.gsub(/[^0-9A-F-]/,"")
+                         end
   end
 
   # no dash or :
   def compact_eui64
-    @compact_eui64 ||= eui64.upcase.gsub(/[^0-9A-F]/,"")
+    @compact_eui64 ||= unless eui64.blank?
+                         eui64.upcase.gsub(/[^0-9A-F]/,"")
+                       end
   end
 
   def linklocal_eui64

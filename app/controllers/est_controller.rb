@@ -172,6 +172,68 @@ class EstController < ApiController
     end
   end
 
+  #
+  # This is used in the MASA to enroll new devices with an IDevID
+  # which might also be a TPM Attestation Key.
+  # In order to use this, the interface/instance used must be marked
+  # as being !$EnrollmentSupported.blank?, and SystemVariable :enrollment
+  # must be enabled.
+  #
+  # Both are required because a system might
+  # have externally facing interfaces on which only MASA functionality
+  # should be enabled, so those deployments can turn off $EnrollmentSupported
+  # in the local production.rb, while the internally facing systems that talk
+  # the factory, where there are new devices.
+  #
+  # Finally, HTTP Basic Authentication is required, and must match
+  # SystemVariable.string(:enrollmentauth),
+  # if $EnrollmentSupported == :authenticate
+  #
+  # POST /e/att (CBOR, COSE), and /.well-known/est/simpleenroll
+  #
+  def simpleenroll
+    unless SystemVariable.boolvalue?(:enrollment)
+      logger.info "Host #{request.ip} attempted enrollment, but not enabled on system"
+      head 401, :text => "Enrollment not supported"
+      return
+    end
+
+    if $EnrollmentSupported.blank? or $EnrollmentSupported == false
+      logger.info "Host #{request.ip} attempted enrollment, but this interface has not enabled enrollment"
+      head 401, :text => "Enrollment not supported"
+      return
+    end
+
+    if $EnrollmentSupported == :authenticate
+      bearerpassword = SystemVariable.string(:enrollmentauth)
+
+      # fail if either side is nil/blank, do so quickly.
+      # then compare in time-constant manner
+      if bearerpassword.blank? or request.authorization.blank? or
+        !ActiveSupport::SecurityUtils.secure_compare(request.authorization,
+                                                    bearerpassword)
+        head 401, :text => "Enrollment authorization failed"
+        return
+      end
+    end
+
+    body = request.body.read
+    if request.env["CONTENT_TYPE"] == 'application/pkcs10-base64'
+      body = Base64.decode64(body)
+    end
+
+    #byebug
+    #begin
+     @device = Device.create_device_from_csr(body)
+     @device.save!
+     devid = @device.certificate.to_der
+
+     render :body => devid,
+            :content_type => 'application/pkcs7-mime',
+            :charset => nil
+     #end
+  end
+
   private
 
   def capture_client_certificate

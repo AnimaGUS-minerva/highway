@@ -55,16 +55,15 @@ gem "loofah", ">= 2.19.1"
 gem "actionpack", ">= 5.2.6.2"
 gem "activerecord", ">= 5.2.8.1"
 gem "activestorage", ">= 8.0.2.1"
-gem "json", ">= 2.3.0"
+gem "json", ">= 2.15.2.1"
 gem "rexml", ">= 3.4.2"
 gem "addressable", ">= 2.8.0"
-gem "nokogiri", ">= 1.18.9"
+gem "nokogiri", ">= 1.19.1"
 gem "rails-html-sanitizer", ">= 1.4.4"
 gem "tzinfo", ">= 1.2.10"
 gem "globalid", ">= 1.0.1"
 gem 'concurrent-ruby', '>= 1.3.4'
 gem 'thor', ">= 1.4.0"
-gem 'activestorage', ">= 8.0.2.1"
 
 # for LetsEncrypt
 gem 'acme-client'

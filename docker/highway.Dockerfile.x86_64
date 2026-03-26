@@ -1,4 +1,4 @@
-FROM dockerhub.gatineau.credil.org/minerva/minerva_builder:v202507 as builder
+FROM dockerhub.gatineau.credil.org/minerva/minerva_builder:v202603 as builder
 
 RUN mkdir -p /app/highway
 ADD ./docker/Gemfile      /app/highway/Gemfile
@@ -21,7 +21,7 @@ RUN rm -f /app/highway/tmp/pids/server.pid && \
 # debugging
 RUN apt-get install strace
 
-FROM mcr314/distroless-ruby:2.6.6-dnsutils
+FROM dockerhub.gatineau.credil.org/minerva/distroless-ruby:3.3.8-dnsutils
 
 COPY --from=builder /app /app
 COPY --from=builder /usr/local/bundle /usr/local/bundle
@@ -33,9 +33,12 @@ COPY --from=builder /bin/sash     /bin/sash
 COPY --from=builder /usr/bin/env  /usr/bin/env
 COPY --from=builder /bin/busybox  /bin/busybox
 COPY --from=builder /usr/bin/strace  /usr/bin/strace
+
+#RUN ls -l /lib/x86_64-linux-gnu/libncurses*
+
 COPY --from=builder /lib/x86_64-linux-gnu/libcom_err.so* \
                     /lib/x86_64-linux-gnu/libcap.so*     \
-                    /lib/x86_64-linux-gnu/libncurses.so.6  \
+                    /lib/x86_64-linux-gnu/libncurses.so*  \
                     /lib/x86_64-linux-gnu/libtinfo.so.6  \
                     /lib/x86_64-linux-gnu/libpthread.so* \
                     /lib/x86_64-linux-gnu/libkeyutils.so*\
